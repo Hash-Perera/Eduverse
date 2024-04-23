@@ -38,7 +38,7 @@ class AuthService {
   //!--> Login function
   async Login(payload, res) {
     const data = payload.data;
-    const user = await User.findOne({ email: data.email });
+    const user = await User.findOne({ email: data.email }).populate("role");
     if (!user) {
       return res
         .status(403)
@@ -50,10 +50,15 @@ class AuthService {
         message: "Password is incorrect. Please try again.",
       });
     }
+
     //? generate jwt token
-    const jwt_payload = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const jwt_payload = jwt.sign(
+      { id: user._id, role: user.role.name },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
 
     //? send token
     res.status(200).json({
