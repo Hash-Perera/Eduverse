@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
