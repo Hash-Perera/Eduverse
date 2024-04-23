@@ -13,7 +13,7 @@ class Producer {
     const connection = await amqp.connect(config.rabbitMQ.url);
     this.channel = await connection.createChannel();
   }
-  async publishMessage(routingKey, message) {
+  async publishMessage(routingKey, event, data) {
     if (!this.channel) {
       await this.createChanael();
     }
@@ -28,16 +28,15 @@ class Producer {
       routingKey,
       Buffer.from(
         JSON.stringify({
-          logType: routingKey,
-          message: message,
+          routingKey: routingKey,
+          event: event,
+          data: data,
           dateTime: new Date(),
         })
       )
     );
 
-    console.log(
-      `The message ${message} is sent to exchange ${config.rabbitMQ.exchange}`
-    );
+    console.log(`The message is sent to exchange ${config.rabbitMQ.exchange}`);
   }
 }
 

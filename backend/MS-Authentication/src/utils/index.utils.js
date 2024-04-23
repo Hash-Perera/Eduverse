@@ -40,7 +40,6 @@ const SubscribeMessages = async (channel, service) => {
   //!concume messages from queue
   channel.consume(q.queue, (msg) => {
     if (msg.content) {
-      console.log("the message is:", msg.content.toString());
       service.SubscribeEvents(msg.content.toString());
     }
     channel.ack(msg);
