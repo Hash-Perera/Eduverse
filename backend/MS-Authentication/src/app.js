@@ -23,9 +23,11 @@
 const express = require("express");
 const cors = require("cors");
 const AuthRoute = require("../src/routes/auth.routes");
+const RoleRoute = require("../src/routes/role.routes");
 module.exports = async (app, channel) => {
   app.use(express.json());
   app.use(cors());
 
   AuthRoute(app, channel);
+  RoleRoute(app, channel);
 };
