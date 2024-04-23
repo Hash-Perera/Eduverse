@@ -4,6 +4,7 @@ backend/MS-Course-Management/node_modules
 backend/MS-Learner/node_modules
 backend/MS-Notification/node_modules
 backend/MS-Payment/node_modules
+backend/Server/node_modules
 frontend/node_modules
 
 # Environment file
