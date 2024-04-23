@@ -22,7 +22,6 @@
 
 const express = require("express");
 const cors = require("cors");
-const { CreateChannel } = require("./utils/index.utils");
 const AuthRoute = require("../src/routes/auth.routes");
 module.exports = async (app, channel) => {
   app.use(express.json());
