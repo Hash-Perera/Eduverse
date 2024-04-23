@@ -1,6 +1,7 @@
 const User = require("../schema/user.schema");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
+const { PublishMessage } = require("../utils/index.utils");
 
 class AuthService {
   //?This is the remote service function
@@ -8,8 +9,8 @@ class AuthService {
     payload = JSON.parse(payload);
 
     switch (payload.event) {
-      case "REGISTER":
-        this.RegisterTest(payload);
+      case "REGISTER_TEST":
+        //this.RegisterTest(payload);
         break;
       default:
         break;
@@ -28,11 +29,6 @@ class AuthService {
       data: newUser,
       message: "User registered successfully",
     });
-  }
-
-  async RegisterTest(payload) {
-    console.log(payload.data);
-    console.log("Register test");
   }
 
   //!--> Login function
@@ -66,6 +62,12 @@ class AuthService {
       data: { token: jwt_payload },
       message: "Login successfull",
     });
+  }
+
+  //! =======  DO not Delete this function =========
+  async RegisterTest(req, res, channel) {
+    console.log("Register test");
+    PublishMessage(channel, "Course", JSON.stringify({ event: "GET_COURSES" }));
   }
 }
 
