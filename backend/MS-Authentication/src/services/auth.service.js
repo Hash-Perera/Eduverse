@@ -9,7 +9,7 @@ class AuthService {
 
     switch (payload.event) {
       case "REGISTER":
-        this.Register(payload);
+        this.RegisterTest(payload);
         break;
       default:
         break;
@@ -28,6 +28,11 @@ class AuthService {
       data: newUser,
       message: "User registered successfully",
     });
+  }
+
+  async RegisterTest(payload) {
+    console.log(payload.data);
+    console.log("Register test");
   }
 
   //!--> Login function
