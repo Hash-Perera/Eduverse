@@ -2,7 +2,7 @@ const amqplib = require("amqplib");
 const {
   MSG_QUEUE_URL,
   EXCHANGE_NAME,
-  AUTH_ROUTING_KEY,
+  COURSE_ROUTING_KEY,
 } = require("../config/index.config");
 
 //? Create a channel
@@ -31,11 +31,11 @@ const SubscribeMessages = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
 
   //!Create queue
-  const q = await channel.assertQueue("AuthQueue");
+  const q = await channel.assertQueue("CourseQueue");
 
   //!Bind Queue
-  // This consumer will concume messages from Auth Only
-  channel.bindQueue(q.queue, EXCHANGE_NAME, AUTH_ROUTING_KEY);
+  // This consumer will concume messages from Course Only
+  channel.bindQueue(q.queue, EXCHANGE_NAME, COURSE_ROUTING_KEY);
 
   //!concume messages from queue
   channel.consume(q.queue, (msg) => {
