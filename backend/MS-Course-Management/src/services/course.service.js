@@ -7,6 +7,9 @@ class CourseService {
       case "CREATE_COURSE":
         this.CreateCourseTest(payload);
         break;
+      case "GET_COURSES":
+        this.R_getCourses();
+        break;
       default:
         break;
     }
@@ -16,6 +19,21 @@ class CourseService {
   async CreateCourseTest(payload) {
     console.log("Create course test");
     console.log(payload.data);
+  }
+
+  //! =======  DO not Delete this function =========
+  async R_getCourses() {
+    console.log("Get courses list");
+    return [
+      {
+        name: "Course 1",
+        price: "100",
+      },
+      {
+        name: "Course 2",
+        price: "200",
+      },
+    ];
   }
 }
 
