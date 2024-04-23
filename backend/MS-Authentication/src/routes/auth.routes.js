@@ -8,4 +8,8 @@ module.exports = (app, channel) => {
   SubscribeMessages(channel, service);
 
   //Other routes
+  app.post("/register", async (req, res) => {
+    const result = await service.Register(req.body);
+    res.send(result);
+  });
 };

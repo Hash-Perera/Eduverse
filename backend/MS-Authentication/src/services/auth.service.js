@@ -1,11 +1,23 @@
+const User = require("../schema/user.schema");
+
 class AuthService {
+  //?This is the remote service function
   async SubscribeEvents(payload) {
-    console.log("Auth service recieved an event");
-    console.log(payload);
-    //Need to add a switch case to choose the correct service function
+    payload = JSON.parse(payload);
+
+    switch (payload.event) {
+      case "REGISTER":
+        this.Register(payload);
+        break;
+      default:
+        break;
+    }
   }
 
   //! Need to implement other service functions here --
+  async Register(payload) {
+    console.log(payload.data);
+  }
 }
 
 module.exports = AuthService;
