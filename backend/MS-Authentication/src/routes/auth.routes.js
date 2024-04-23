@@ -18,4 +18,10 @@ module.exports = (app, channel) => {
     const result = await service.Login(req.body, res);
     res.send(result);
   });
+
+  //! =======  DO not Delete this function =========
+  app.post(`${baseurl}/register-test`, async (req, res) => {
+    const result = await service.RegisterTest(req.body, res, channel);
+    res.send(result);
+  });
 };
