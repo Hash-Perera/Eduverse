@@ -9,7 +9,12 @@ module.exports = (app, channel) => {
 
   //Other routes
   app.post("/register", async (req, res) => {
-    const result = await service.Register(req.body);
+    const result = await service.Register(req.body, res);
+    res.send(result);
+  });
+
+  app.post("/login", async (req, res) => {
+    const result = await service.Login(req.body, res);
     res.send(result);
   });
 };
