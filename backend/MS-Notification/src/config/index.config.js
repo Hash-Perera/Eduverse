@@ -7,4 +7,6 @@ module.exports = {
   AUTH_ROUTING_KEY: "Auth",
   COURSE_ROUTING_KEY: "Course",
   LEARNER_ROUTING_KEY: "Learner",
+  NOTIFICATION_ROUTING_KEY: "Notification",
+  PAYMENT_ROUTING_KEY: "Payment",
 };
