@@ -74,7 +74,7 @@ const Home = () => {
   return (
     <>
       <div style={{ height: "100vh" }}>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
             <PrimaryAppBar />
           </Grid>
@@ -85,16 +85,28 @@ const Home = () => {
             md={12}
             style={{ paddingLeft: "5%", paddingRight: "5%", paddingTop: "2%" }}
           >
-            <Grid item xs={7} sm={7} md={7}>
-              <Typography variant="h4" fontWeight="bold">
+            <Grid item xs={5} sm={5} md={5}>
+              <CircleSet />
+            </Grid>
+            <Grid
+              item
+              xs={7}
+              sm={7}
+              md={7}
+              style={{
+                paddingLeft: "7rem",
+                paddingTop: "3rem",
+              }}
+            >
+              <Typography variant="h3" fontWeight="bold">
                 Discover Your Path
               </Typography>
-              <Typography variant="h4" fontWeight="bold">
+              <Typography variant="h3" fontWeight="bold">
                 Find Your Perfect Course Today
               </Typography>
               <Typography
                 variant="body1"
-                className="mt-3"
+                className="mt-4"
                 style={{ lineHeight: "1.8", letterSpacing: "0.5px" }}
               >
                 Explore thousands of courses taught by experts in various
@@ -117,9 +129,6 @@ const Home = () => {
                   Get Started
                 </Button>
               </Stack>
-            </Grid>
-            <Grid item xs={5} sm={5} md={5}>
-              <CircleSet />
             </Grid>
           </Grid>
         </Grid>
