@@ -3,7 +3,7 @@ const { SubscribeMessages } = require("../utils/index.utils");
 
 module.exports = (app, channel) => {
   const service = new AuthService();
-  const baseurl = "/auth";
+  const baseurl = "/user";
 
   //To listen
   SubscribeMessages(channel, service);

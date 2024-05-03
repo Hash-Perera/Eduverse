@@ -1,0 +1,33 @@
+.circle-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.largest {
+  border-radius: 50%;
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background-color: #afe2f5;
+}
+
+.medium {
+  border-radius: 50%;
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: #65bbe0;
+  top: 50px;
+  left: 50px;
+}
+
+.smallest {
+  border-radius: 50%;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: #2e8eac;
+  top: 100px;
+  left: 100px;
+}
