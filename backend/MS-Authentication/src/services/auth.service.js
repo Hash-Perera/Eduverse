@@ -64,6 +64,25 @@ class AuthService {
     });
   }
 
+  //! Validate user function
+  async Validate(id, res) {
+    const user = await User.findById(id).populate("role");
+    const returnObject = {
+      id: user._id,
+      name: user.firstName + " " + user.lastName,
+      role: user.role.name,
+    };
+
+    if (!user) {
+      return res
+        .status(403)
+        .json({ success: false, message: "User not found. Please try again." });
+    }
+    res
+      .status(200)
+      .json({ success: true, data: returnObject, message: "User is valid" });
+  }
+
   //! =======  DO not Delete this function =========
   async RegisterTest(req, res, channel) {
     console.log("Register test");
