@@ -1,0 +1,33 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-radius: 50%;
+}
+
+.circle-small {
+  position: absolute;
+  top: 50px; /* Adjust the position of the smaller circle */
+  right: 50px; /* Adjust the position of the smaller circle */
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-radius: 50%;
+}
