@@ -16,7 +16,9 @@ const Footer = () => {
       >
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <div className="d-flex flex-column align-items-start">
-            <Typography variant="h6">Popular Skills</Typography>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Popular Skills
+            </Typography>
             <Typography variant="body">Digital Marketing</Typography>
             <Typography variant="body">Cybersecurity</Typography>
             <Typography variant="body">Project Management</Typography>
@@ -27,7 +29,9 @@ const Footer = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <div className="d-flex flex-column align-items-start">
-            <Typography variant="h6">Popular AI Courses</Typography>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Popular AI Courses
+            </Typography>
             <Typography variant="body">
               Prompt Engineering for ChatGPT Course
             </Typography>
@@ -48,7 +52,9 @@ const Footer = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <div className="d-flex flex-column align-items-start">
-            <Typography variant="h6">About Us</Typography>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              About Us
+            </Typography>
             <Typography variant="body">About Us</Typography>
             <Typography variant="body">About Us</Typography>
             <Typography variant="body">About Us</Typography>
@@ -59,7 +65,9 @@ const Footer = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <div className="d-flex flex-column align-items-start">
-            <Typography variant="h6">About Us</Typography>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              About Us
+            </Typography>
             <Typography variant="body">About Us</Typography>
             <Typography variant="body">About Us</Typography>
             <Typography variant="body">About Us</Typography>

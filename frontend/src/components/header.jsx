@@ -16,6 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Logo1 from "../assets/images/Logo1.png";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -200,7 +202,7 @@ export default function PrimaryAppBar() {
           <img src={Logo1} alt="Your Image" style={{ height: "22rem" }} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
@@ -228,7 +230,11 @@ export default function PrimaryAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
+            <Stack spacing={2} direction="row">
+              <Button variant="outlined">Login</Button>
+              <Button variant="contained">Signup</Button>
+            </Stack>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
