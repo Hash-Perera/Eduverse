@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const axios = require("axios");
 
 //? Load env variables
 dotenv.config();
@@ -14,16 +15,21 @@ const AuthMiddleware = (req, res, next) => {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) {
+  axios
+    .post("http://localhost:8000/ms-auth/user/validate", null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      req.user = response.data.data;
+      next();
+    })
+    .catch((error) => {
       return res
         .status(403)
-        .json({ success: false, message: "Invalid token! didn't match" });
-    }
-
-    req.user = user;
-    next();
-  });
+        .json({ success: false, message: "Error !!! Unauthorized" });
+    });
 };
 
 module.exports = AuthMiddleware;
