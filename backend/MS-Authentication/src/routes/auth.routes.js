@@ -19,6 +19,11 @@ module.exports = (app, channel) => {
     res.send(result);
   });
 
+  app.post(`${baseurl}/validate`, async (req, res) => {
+    const result = await service.Validate(req.user, res);
+    res.send(result);
+  });
+
   //! =======  DO not Delete this function =========
   app.post(`${baseurl}/register-test`, async (req, res) => {
     const result = await service.RegisterTest(req.body, res, channel);
