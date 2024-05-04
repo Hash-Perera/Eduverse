@@ -1,15 +1,18 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+const User = require("../schema/user.schema");
 
 const AuthGuard = (req, res, next) => {
   const header = req.headers["authorization"];
   const token = header && header.split(" ")[1];
 
   //! Allow login endpoint without token
-  if (req.path === "/api/v1/auth/login") {
+  if (req.path === "/user/login" || req.path === "/user/register") {
     return next();
   }
+  if (req.path === "/user/validate") {
+  }
 
+  console.log(token);
   //! Checking token
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -20,6 +23,7 @@ const AuthGuard = (req, res, next) => {
       return res.status(403).json({ message: "Invalid token! didn't match" });
     }
 
+    console.log(user);
     const findUser = await User.findById(user.id).select("-password");
 
     if (!findUser) {
