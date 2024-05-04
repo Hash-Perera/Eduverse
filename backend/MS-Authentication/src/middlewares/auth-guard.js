@@ -23,7 +23,6 @@ const AuthGuard = (req, res, next) => {
       return res.status(403).json({ message: "Invalid token! didn't match" });
     }
 
-    console.log(user);
     const findUser = await User.findById(user.id).select("-password");
 
     if (!findUser) {
