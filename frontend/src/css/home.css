@@ -5,3 +5,15 @@
   overflow: hidden;
   max-height: 3.6em;
 }
+
+.hero-image-container {
+  height: 60vh;
+  width: 60vw;
+  z-index: 10;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

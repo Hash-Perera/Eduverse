@@ -1,23 +1,18 @@
-// const CircleSet = ({ circles }) => {
-//   return (
-//     <div className="circle-set">
-//       {circles.map((circle, index) => (
-//         <Circle key={index} {...circle} />
-//       ))}
-//     </div>
-//   );
-
 import "../css/circleset.css";
-// };
+import Girl1 from "../assets/images/Girl_1.png";
+
 const CircleSet = () => {
   return (
-    <>
-      <div class="circle-container">
-        <div class="largest"></div>
-        <div class="medium"></div>
-        <div class="smallest"></div>
+    <div className="wrapper">
+      <div className="circle-container">
+        <div className="largest"></div>
+        <div className="medium"></div>
+        <div className="smallest"></div>
       </div>
-    </>
+      <div className="hero-image-container">
+        <img className="hero-image" src={Girl1} alt="Your Image" />
+      </div>
+    </div>
   );
 };
 
