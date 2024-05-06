@@ -11,8 +11,35 @@ module.exports = (app, channel) => {
   //Other routes
   //TODO: complete this functions
   app.post(`${baseUrl}/create`, async (req, res) => {
-    console.log("This is course route");
-    console.log(req.user);
-    res.send({ msg: "course created" });
+    const result = await service.CreateCourse(req.body, res);
+    res.send(result);
+  });
+
+  app.put(`${baseUrl}/status-update`, async (req, res) => {
+    const result = await service.UpdateCourseStatus(req.body, res);
+    res.send(result);
+  });
+
+  app.get(`${baseUrl}/get-by-id`, async (req, res) => {
+    const result = await service.GetCourseById(req.body, res);
+    res.send(result);
+  });
+
+  //update course Details
+  app.put(`${baseUrl}/details-update`, async (req, res) => {
+    const result = await service.UpdateCourseDetails(req.body, res);
+    res.send(result);
+  });
+
+  //get course with filters
+  app.get(`${baseUrl}/filters`, async (req, res) => {
+    const result = await service.GetCourseFilters(req.query);
+    res.send(result);
+  });
+
+  //delete course
+  app.delete(`${baseUrl}/delete`, async (req, res) => {
+    const result = await service.DeleteCourse(req.body, res);
+    res.send(result);
   });
 };

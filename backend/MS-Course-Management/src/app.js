@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const AuthGuard = require("../src/middlewares/Auth.middleware");
 const CourseRoute = require("../src/routes/course.routes");
+const LessonRoute = require("../src/routes/lesson.routes");
 
 module.exports = async (app, channel) => {
   app.use(express.json());
@@ -9,4 +10,5 @@ module.exports = async (app, channel) => {
 
   app.use(AuthGuard);
   CourseRoute(app, channel);
+  LessonRoute(app, channel);
 };
