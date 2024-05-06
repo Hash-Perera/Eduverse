@@ -2,6 +2,8 @@ const express = require("express");
 const expressApp = require("./app");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const http = require("http");
+const { Server } = require("socket.io");
 const { CreateChannel } = require("./utils/index.utils");
 
 const StartServer = async () => {
@@ -26,7 +28,14 @@ const StartServer = async () => {
   const channel = await CreateChannel();
 
   await expressApp(app, channel);
-  //-//
+
+  //! Socket IO Configurations
+  const server = http.createServer(app);
+  const io = new Server(server);
+  io.on("connection", (socket) => {
+    console.log("Socket connected: " + socket.id);
+  });
+
   app.listen(PORT, () => {
     console.log(`Notification Management Microservice running on ${PORT}`);
   });
