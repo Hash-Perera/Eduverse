@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import FormExample from "./formexample";
 import CommonCard from "../components/common-card";
 import PrimaryAppBar from "../components/header";
@@ -17,6 +18,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
+import io from "socket.io-client";
 
 const courseList = [
   {
@@ -70,7 +72,18 @@ const courseList = [
   },
 ];
 
+// const socket = io.connect("http://localhost:8004");
+
 const Home = () => {
+  useEffect(() => {
+    // socket.emit("send_message", { message: "Hello" });
+    // //! listen to messagess
+    // socket.on("receive_message", (data) => {
+    //   console.log(data);
+    //   alert(data.message);
+    // });
+  }, []);
+
   return (
     <>
       <div style={{ height: "100vh" }}>

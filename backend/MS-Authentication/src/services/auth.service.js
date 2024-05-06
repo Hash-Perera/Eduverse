@@ -34,12 +34,14 @@ class AuthService {
   //!--> Login function
   async Login(payload, res) {
     const data = payload.data;
-    const user = await User.findOne({ email: data.email }).populate("role");
-    if (!user) {
+    const isExist = await User.findOne({ email: data.email });
+    if (!isExist) {
       return res
         .status(403)
         .json({ success: false, message: "User not found. Please try again." });
     }
+    const user = await User.findOne({ email: data.email }).populate("role");
+
     if (!(await argon2.verify(user.password, data.password))) {
       return res.status(403).json({
         success: false,

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -18,6 +19,21 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Logo1 from "../assets/images/Logo1.png";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import axios from "axios";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
+const options = [
+  "Show some love to MUI",
+  "Show all notification content",
+  "Hide sensitive notification content",
+  "Hide all notification content",
+];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,7 +75,71 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const token = localStorage.getItem("token");
+
 export default function PrimaryAppBar() {
+  const Navigate = useNavigate();
+
+  const [token, setToken] = React.useState(null);
+  const [notifications, setNotifications] = React.useState([]);
+  const [newNotifiCount, setNewNotifiCount] = React.useState(0);
+
+  //! Use effect
+  useEffect(() => {
+    const token = localStorage.getItem("ds-token");
+    if (token) {
+      setToken(token);
+      getNotifications();
+    }
+  }, []);
+
+  //! Logout
+  const handleLogOut = () => {
+    localStorage.removeItem("ds-token");
+    Navigate("/");
+  };
+
+  //! Get Notifications
+  const getNotifications = async () => {
+    const newToken = await localStorage.getItem("ds-token");
+    axios
+      .get(
+        "http://localhost:8000/ms-notification/notification/get-notifications-10",
+        {
+          headers: {
+            Authorization: `Bearer ${newToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        setNotifications(res.data.data);
+        const newNotifi = res.data.data.filter(
+          (notifi) => notifi.viewed === false
+        );
+        setNewNotifiCount(newNotifi.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  //!=========================================================================
+  const [anchorElNotifi, setAnchorElNotifi] = React.useState(null);
+
+  const openNotifi = Boolean(anchorElNotifi);
+  const handleClickListItem = (event) => {
+    setAnchorElNotifi(event.currentTarget);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    setAnchorElNotifi(null);
+  };
+
+  const handleClose = () => {
+    setAnchorElNotifi(null);
+  };
+
+  //!=========================================================================
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -100,9 +180,11 @@ export default function PrimaryAppBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      sx={{ width: "900px" }}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
 
@@ -138,7 +220,7 @@ export default function PrimaryAppBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={newNotifiCount} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -158,6 +240,47 @@ export default function PrimaryAppBar() {
       </MenuItem>
     </Menu>
   );
+
+  //! Notification Menu
+  const notifiMenu = (
+    <Menu
+      id="lock-menu"
+      anchorEl={anchorElNotifi}
+      open={openNotifi}
+      onClose={handleClose}
+      MenuListProps={{
+        "aria-labelledby": "lock-button",
+        role: "listbox",
+      }}
+      slotProps={{
+        paper: {
+          style: {
+            minWidth: "450px",
+            maxHeight: "500px",
+            overflowY: "scroll",
+            overflowX: "hidden",
+          },
+        },
+      }}
+    >
+      <Button varient="outlined">view all</Button>
+      {notifications.map((option, index) => (
+        <MenuItem
+          key={option._id}
+          disabled={option.viewed === true}
+          onClick={(event) => handleMenuItemClick(event, index)}
+          sx={{ display: "flex", justifyContent: "space-between" }} // Align items horizontally
+        >
+          {option.title}
+          <IconButton onClick={(event) => handleViewButtonClick(event, option)}>
+            {option.viewed ? <CheckCircleOutlineIcon /> : <CheckCircleIcon />}
+          </IconButton>
+        </MenuItem>
+      ))}
+    </Menu>
+  );
+
+  //!=========================================================================
 
   //! Main AppBar
   return (
@@ -202,39 +325,61 @@ export default function PrimaryAppBar() {
           <img src={Logo1} alt="Your Image" style={{ height: "22rem" }} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton> */}
-            <Stack spacing={2} direction="row">
-              <Button variant="outlined">Login</Button>
-              <Button variant="contained">Signup</Button>
-            </Stack>
+            {token && (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <Badge badgeContent={4} color="error">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                  onClick={handleClickListItem}
+                >
+                  <Badge badgeContent={newNotifiCount} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </>
+            )}
+
+            {!token && (
+              <Stack spacing={2} direction="row">
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    Navigate("/login");
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    Navigate("/signin");
+                  }}
+                >
+                  Signup
+                </Button>
+              </Stack>
+            )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -252,6 +397,7 @@ export default function PrimaryAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {notifiMenu}
     </Box>
   );
 }
