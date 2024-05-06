@@ -1,4 +1,5 @@
 const Notification = require("../schema/notification.schema");
+const nodeMailer = require("nodemailer");
 
 class NotificationService {
   //? This is remote service function
@@ -40,8 +41,49 @@ class NotificationService {
     const notifications = await Notification.find({ userId: userId });
     return res.status(200).send({
       success: true,
-      data: notifications,
+      data: notifications.reverse(),
       message: "Notifications Fetched",
+    });
+  }
+
+  async setAsMarked(notificationId, res) {
+    const notification = await Notification.findByIdAndUpdate(notificationId, {
+      viewed: true,
+    });
+    res.status(200).send({
+      success: true,
+      data: notification,
+      message: "Notification Marked as Read",
+    });
+  }
+
+  //! Email service
+  async SendEmail(email, subject, message, res) {
+    const transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+
+    const html = `
+    <h1>Dear student</h1>
+    <p>Your time table has been changed. Please refer to the LMS for updated timetable<p>
+    <br>
+    <p>Regards<br>Thank you<br>Student Affairs SLIIT</p> `;
+
+    const info = await transporter.sendMail({
+      from: "vhprabhathperera222@gmail.com",
+      to: email,
+      subject: subject,
+      html: message,
+    });
+
+    res.status(200).send({
+      success: true,
+      data: info,
+      message: "Email Sent",
     });
   }
 }

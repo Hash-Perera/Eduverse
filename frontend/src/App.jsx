@@ -8,16 +8,25 @@ import "@fontsource/roboto/700.css";
 import SignIn from "./pages/signin";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
+import Profile from "./pages/profile";
+import ResetPassword from "./pages/reset-password";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              localStorage.getItem("ds-token") ? <Dashboard /> : <Home />
+            }
+          />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </>
