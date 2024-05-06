@@ -61,7 +61,7 @@ class AuthService {
     //? send token
     res.status(200).json({
       success: true,
-      data: { token: jwt_payload },
+      data: { token: jwt_payload, role: user.role.name },
       message: "Login successfull",
     });
   }
