@@ -10,6 +10,7 @@ import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import ResetPassword from "./pages/reset-password";
+import ViewNotifications from "./pages/view-notifications";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/view-notifications" element={<ViewNotifications />} />
         </Routes>
       </BrowserRouter>
     </>

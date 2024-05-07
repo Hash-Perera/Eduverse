@@ -7,6 +7,7 @@ import { Form, Formik } from "formik";
 import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // FORMIK
 const INITIAL_FORM_STATE = {
@@ -26,6 +27,7 @@ const FORM_VALIDATION = Yup.object().shape({
 });
 
 const SignIn = () => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="p-5" style={{ height: "100vh" }}>
@@ -45,7 +47,19 @@ const SignIn = () => {
               initialValues={{ ...INITIAL_FORM_STATE }}
               validationSchema={FORM_VALIDATION}
               onSubmit={async (values) => {
-                console.log(values);
+                axios
+                  .post("http://localhost:8000/ms-auth/user/register", {
+                    data: values,
+                  })
+                  .then(
+                    (res) => {
+                      console.log(res);
+                      Navigate("/login");
+                    },
+                    (err) => {
+                      console.log(err);
+                    }
+                  );
               }}
             >
               <Form style={{ width: "70%" }}>

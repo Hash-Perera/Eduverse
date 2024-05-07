@@ -288,7 +288,12 @@ export default function PrimaryAppBar() {
         },
       }}
     >
-      <Button varient="outlined">view all</Button>
+      <Button
+        varient="outlined"
+        onClick={() => Navigate("/view-notifications")}
+      >
+        view all
+      </Button>
       {notifications.map((option, index) => (
         <MenuItem
           key={option._id}
