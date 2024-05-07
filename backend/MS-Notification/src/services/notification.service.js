@@ -13,6 +13,16 @@ class NotificationService {
       case "ON_BOARD":
         this.OnBoard();
         break;
+      case "DASHBOARD_NOTIFICATION":
+        this.DashboardNotification(payload.data);
+        break;
+      case "EMAIL":
+        this.SendEmail(
+          payload.data.email,
+          payload.data.subject,
+          payload.data.message
+        );
+        break;
       default:
         break;
     }
