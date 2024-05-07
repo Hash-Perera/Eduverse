@@ -48,6 +48,8 @@ const Login = () => {
                   })
                   .then((res) => {
                     localStorage.setItem("ds-token", res.data.data.token);
+                    localStorage.setItem("ds-role", res.data.data.role);
+                    console.log(res.data);
                     console.log(res.data.message);
                     Navigate("/dashboard");
                   })
