@@ -2,6 +2,7 @@ const User = require("../schema/user.schema");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const { PublishMessage } = require("../utils/index.utils");
+const axios = require("axios");
 
 class AuthService {
   //?This is the remote service function
@@ -61,7 +62,7 @@ class AuthService {
     //? send token
     res.status(200).json({
       success: true,
-      data: { token: jwt_payload },
+      data: { token: jwt_payload, role: user.role.name },
       message: "Login successfull",
     });
   }
@@ -83,6 +84,99 @@ class AuthService {
     res
       .status(200)
       .json({ success: true, data: returnObject, message: "User is valid" });
+  }
+
+  async GetDetails(id, res) {
+    const user = await User.findById(id);
+    user.password = "**********";
+    res.status(200).json({
+      success: true,
+      data: user,
+      message: "User details fetched successfully",
+    });
+  }
+
+  async Update(id, data, res) {
+    const user = await User.findByIdAndUpdate(id, data, { new: true });
+    return res.status(200).json({
+      success: true,
+      data: user,
+      message: "User updated successfully",
+    });
+  }
+
+  async sendOtpToNotificationService(req, userId, res) {
+    const token = req.headers.authorization;
+    console.log(token);
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { otp: otp },
+      { new: true }
+    );
+    if (user) {
+      axios.post(
+        "http://localhost:8000/ms-notification/notification/send-otp",
+        {
+          userId: userId,
+          otp: otp,
+          email: user.email,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+    }
+    res.status(200).json({
+      success: true,
+      data: user,
+      message: "OTP sent successfully",
+    });
+  }
+
+  async ResetPassword(req, userId, data, res) {
+    const user = await User.findById(userId);
+
+    if (data.otp == user.otp) {
+      const encryptedPassword = await argon2.hash(data.newPassword);
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        password: encryptedPassword,
+      });
+
+      const dashboardNotification = {
+        title: "Password reset",
+        message: "Password reset successfully",
+        data: {},
+        viewed: false,
+        userId: userId,
+      };
+
+      axios
+        .post(
+          "http://localhost:8000/ms-notification/notification/create-dashboard",
+          dashboardNotification,
+          {
+            headers: {
+              Authorization: req.headers.authorization,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        });
+
+      return res.status(200).json({
+        success: true,
+        data: updatedUser,
+        message: "Password updated successfully",
+      });
+    }
+    return res.status(403).json({
+      success: false,
+      message: "OTP is incorrect. Please try again.",
+    });
   }
 
   //! =======  DO not Delete this function =========

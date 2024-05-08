@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema({
     required: false,
     ref: "Role",
   },
+
+  otp: {
+    type: String,
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -24,9 +24,26 @@ module.exports = (app, channel) => {
     res.send(result);
   });
 
+  app.put(`${baseurl}/update`, async (req, res) => {
+    return await service.Update(req.user, req.body, res);
+  });
+
   //! =======  DO not Delete this function =========
   app.post(`${baseurl}/register-test`, async (req, res) => {
     const result = await service.RegisterTest(req.body, res, channel);
     res.send(result);
+  });
+
+  app.get(`${baseurl}/details`, async (req, res) => {
+    return await service.GetDetails(req.user, res);
+  });
+
+  app.get(`${baseurl}/send-otp`, async (req, res) => {
+    return await service.sendOtpToNotificationService(req, req.user, res);
+  });
+
+  app.post(`${baseurl}/reset-password`, async (req, res) => {
+    const userId = req.user;
+    return await service.ResetPassword(req, userId, req.body, res);
   });
 };
