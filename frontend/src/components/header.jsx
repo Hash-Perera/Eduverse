@@ -99,6 +99,10 @@ export default function PrimaryAppBar() {
     Navigate("/");
   };
 
+  //! Profile Click
+  const handleProfileClick = () => {
+    Navigate("/profile");
+  };
   //! Get Notifications
   const getNotifications = async () => {
     const newToken = await localStorage.getItem("ds-token");
@@ -117,6 +121,27 @@ export default function PrimaryAppBar() {
           (notifi) => notifi.viewed === false
         );
         setNewNotifiCount(newNotifi.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  //! Mark as read
+  const handleViewButtonClick = async (id) => {
+    const newToken = await localStorage.getItem("ds-token");
+    axios
+      .put(
+        `http://localhost:8000/ms-notification/notification/mark-as-read/${id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${newToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        getNotifications();
       })
       .catch((err) => {
         console.log(err);
@@ -182,7 +207,7 @@ export default function PrimaryAppBar() {
       onClose={handleMenuClose}
       sx={{ width: "900px" }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
@@ -263,7 +288,12 @@ export default function PrimaryAppBar() {
         },
       }}
     >
-      <Button varient="outlined">view all</Button>
+      <Button
+        varient="outlined"
+        onClick={() => Navigate("/view-notifications")}
+      >
+        view all
+      </Button>
       {notifications.map((option, index) => (
         <MenuItem
           key={option._id}
@@ -272,7 +302,7 @@ export default function PrimaryAppBar() {
           sx={{ display: "flex", justifyContent: "space-between" }} // Align items horizontally
         >
           {option.title}
-          <IconButton onClick={(event) => handleViewButtonClick(event, option)}>
+          <IconButton onClick={(event) => handleViewButtonClick(option._id)}>
             {option.viewed ? <CheckCircleOutlineIcon /> : <CheckCircleIcon />}
           </IconButton>
         </MenuItem>
