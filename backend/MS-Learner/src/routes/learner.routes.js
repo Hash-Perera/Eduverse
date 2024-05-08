@@ -21,7 +21,10 @@ module.exports = (app, channel) => {
 
   app.get(`${baseurl}/courses`, async (req, res) => {
     try {
-      const result = await service.getEnrolledCourses(req.body, res);
+      const header = req.headers["authorization"];
+      const token = header && header.split(" ")[1];
+
+      const result = await service.getEnrolledCourses(req.body, res, token);
       res.status(200).send(result);
     } catch (error) {
       console.error(error);
@@ -32,7 +35,9 @@ module.exports = (app, channel) => {
   //get enrolled course by id
   app.get(`${baseurl}/course/`, async (req, res) => {
     try {
-      const result = await service.getEnrolledCourseById(req.body,res);
+      const header = req.headers["authorization"];
+      const token = header && header.split(" ")[1];
+      const result = await service.getEnrolledCourseById(req.body, res, token);
       res.status(200).send(result);
     } catch (error) {
       console.error(error);
@@ -48,13 +53,13 @@ module.exports = (app, channel) => {
 
   //update course progress
   app.put(`${baseurl}/course/progress`, async (req, res) => {
-    try{
-    const result = await service.updateCourseProgress(req.body, res);
-    res.send(result);
+    try {
+      const result = await service.updateCourseProgress(req.body, res);
+      res.send(result);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
-        }
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
   });
 
   app.delete(`${baseurl}/course/unenroll`, async (req, res) => {
@@ -67,4 +72,3 @@ module.exports = (app, channel) => {
     }
   });
 };
-
