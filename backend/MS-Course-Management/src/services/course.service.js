@@ -124,7 +124,7 @@ class CourseService {
         duration: payload.duration,
         description: payload.description,
         instructor: payload.instructor,
-        sampleImage: payload.sampleImage,
+        image: payload.image,
         category: payload.category,
       },
       { new: true }
@@ -154,6 +154,65 @@ class CourseService {
         data: course,
         message: "Course deleted successfully",
       });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //get courses for specified instructor
+  async GetInstructorCourses(payload) {
+    try {
+      if (payload.body.instructor) {
+        if (payload.query.category === "all") {
+          const courses = await Course.find({
+            instructor: payload.body.instructor,
+            status: payload.query.status,
+          })
+            .populate({
+              path: "lessons",
+              model: "Lesson",
+            })
+            .exec();
+
+          return courses;
+        } else {
+          const courses = await Course.find({
+            instructor: payload.body.instructor,
+            category: payload.query.category,
+            status: payload.query.status,
+          })
+            .populate({
+              path: "lessons",
+              model: "Lesson",
+            })
+            .exec();
+
+          return courses;
+        }
+      } else {
+        if (payload.query.category === "all") {
+          const courses = await Course.find({ status: payload.query.status })
+            .populate({
+              path: "lessons",
+              model: "Lesson",
+            })
+            .exec();
+
+          return courses;
+        } else {
+          const courses = await Course.find({
+            category: payload.query.category,
+            status: payload.query.status,
+          })
+            .populate({
+              path: "lessons",
+              model: "Lesson",
+            })
+            .exec();
+
+          return courses;
+        }
+      }
     } catch (err) {
       console.log(err);
     }

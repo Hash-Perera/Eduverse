@@ -8,11 +8,14 @@ module.exports = (app, channel) => {
   //To listen
   SubscribeMessages(channel, service);
 
-  //Other routes
   //Create lesson
   app.post(`${baseUrl}/create`, async (req, res) => {
-    const result = await service.CreateLesson(req.body, res);
-    res.send(result);
+    try {
+      const result = await service.CreateLesson(req.body, res);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   //Get All lessons
