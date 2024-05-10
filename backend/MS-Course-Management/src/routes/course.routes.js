@@ -16,8 +16,12 @@ module.exports = (app, channel) => {
   }); */
 
   app.put(`${baseUrl}/status-update`, async (req, res) => {
-    const result = await service.UpdateCourseStatus(req.body, res);
-    res.send(result);
+    try {
+      const result = await service.UpdateCourseStatus(req.body, res);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   app.get(`${baseUrl}/get-by-id`, async (req, res) => {
@@ -26,10 +30,22 @@ module.exports = (app, channel) => {
   });
 
   //update course Details
-  app.put(`${baseUrl}/details-update`, async (req, res) => {
-    const result = await service.UpdateCourseDetails(req.body, res);
-    res.send(result);
-  });
+  app.put(
+    `${baseUrl}/details-update`,
+    upload.single("image"),
+    async (req, res) => {
+      try {
+        const body = {
+          ...req.body,
+          image: req.file.filename,
+        };
+        const result = await service.UpdateCourseDetails(body, res);
+        res.send(result);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  );
 
   //get course with filters
   app.get(`${baseUrl}/filters`, async (req, res) => {
@@ -39,18 +55,36 @@ module.exports = (app, channel) => {
 
   //delete course
   app.delete(`${baseUrl}/delete`, async (req, res) => {
-    const result = await service.DeleteCourse(req.body, res);
-    res.send(result);
+    try {
+      const result = await service.DeleteCourse(req.body, res);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   // Route to handle file upload
   app.post(`${baseUrl}/upload`, upload.single("image"), async (req, res) => {
-    //req body with image file path
-    const body = {
-      ...req.body,
-      image: req.file.filename,
-    };
-    const result = await service.CreateCourse(body, res);
-    res.send(result);
+    try {
+      const body = {
+        ...req.body,
+        instructor: req.user.id,
+        image: req.file.filename,
+      };
+      const result = await service.CreateCourse(body, res);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  //getInstructorCourses
+  app.get(`${baseUrl}/instructor-courses`, async (req, res) => {
+    try {
+      const result = await service.GetInstructorCourses(req);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
   });
 };

@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  api-gateway:
+    build:
+      context: ./API-Gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+  auth-service:
+    build:
+      context: ./MS-Authentication
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    depends_on:
+      - api-gateway

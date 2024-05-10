@@ -13,6 +13,8 @@ import ResetPassword from "./pages/reset-password";
 import ViewNotifications from "./pages/view-notifications";
 import Payment from "./pages/payment";
 import Successpage from "./pages/successpage";
+import AddCourse from "./pages/AddCourse";
+import AddLesson from "./pages/AddLesson";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="/view-notifications" element={<ViewNotifications />} />
           <Route path="/payment" element={<Payment/>}/>
           <Route path="/success" element={<Successpage/>}/>
+          <Route path="/add-course" element={<AddCourse />} />
+          <Route path="/add-lesson" element={<AddLesson />} />
         </Routes>
       </BrowserRouter>
     </>
