@@ -1,9 +1,7 @@
 //Import the schema here
 
 
-// const stripe = require('stripe')
-import Stripe from 'stripe'
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class PaymentService {
 
@@ -12,7 +10,7 @@ class PaymentService {
     
         switch (payload.event) {
           case "CREATE_CHECKOUT":
-            this.createCheckoutSession(payload);
+            this.CreateCheckoutSession(payload);
             break;
           case "GET_SESSION":
             this.getCheckoutSession(payload);
@@ -25,28 +23,28 @@ class PaymentService {
 
     //Create checkout session
 
-    async createCheckoutSession(payload,res){
-        let item_price = 200.00;
-        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    async CreateCheckoutSession(payload,res){
 
-        //creating session !!!!!!change the hardcoded data
-        const session = await stripe.checkout.session.create({
+        //creating session
+        const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             line_items: [
                 {
                     price_data: {
-                        currency: 'usd',
+                        currency: 'lkr',
                         product_data: {
-                          name: 'Course',
+                          name: payload.title,
+                          description:payload.description,
+                          images:[payload.imageUrl]
                         },
-                        unit_amount: 2000,
+                        unit_amount: payload.price * 100,
                       },
                       quantity: 1,
                 },   
             ],
 
             mode: 'payment',
-            return_url: `${BASE_URL}/return?session_id={CHECKOUT_SESSION_ID}`,
+            return_url: `http://localhost:5173/succsess?session_id={CHECKOUT_SESSION_ID}`,
         });
 
         res.send({clientSecret: session.client_secret})

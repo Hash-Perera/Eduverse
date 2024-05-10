@@ -9,7 +9,7 @@ module.exports =  (app,channel)=>{
     SubscribeMessages(channel, service);
 
     app.post(`${baseUrl}/create-session`, async (req,res)=>{
-        const result = await service.createCheckoutSession(req.body,res);
+        const result = await service.CreateCheckoutSession(req.body,res); 
         res.send(result);
     });
 

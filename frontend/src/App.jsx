@@ -11,6 +11,8 @@ import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import ResetPassword from "./pages/reset-password";
 import ViewNotifications from "./pages/view-notifications";
+import Payment from "./pages/payment";
+import Successpage from "./pages/successpage";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/view-notifications" element={<ViewNotifications />} />
+          <Route path="/payment" element={<Payment/>}/>
+          <Route path="/success" element={<Successpage/>}/>
         </Routes>
       </BrowserRouter>
     </>
