@@ -30,7 +30,7 @@ function connectionErrorHandler(err, req, res, next) {
 }
 
 //! Initialize proxy middleware for each microservice
-const proxyAuth = proxy("http://localhost:8001");
+const proxyAuth = proxy("http://auth-service:8001");
 const proxyCourse = proxy("http://localhost:8002");
 const proxyLearner = proxy("http://localhost:8003");
 const proxyNotification = proxy("http://localhost:8004");
@@ -42,6 +42,9 @@ app.use("/ms-course", proxyCourse);
 app.use("/ms-learner", proxyLearner);
 app.use("/ms-notification", proxyNotification);
 app.use("/ms-payment", proxyPayment);
+app.use("/", (req, res) => {
+  res.send("API Gateway is running");
+});
 
 //! Attach custom middleware to handle connection errors
 app.use(connectionErrorHandler);
