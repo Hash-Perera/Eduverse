@@ -7,6 +7,7 @@ const LessonRoute = require("../src/routes/lesson.routes");
 module.exports = async (app, channel) => {
   app.use(express.json());
   app.use(cors());
+  app.use(express.static("uploads/Images"));
 
   app.use(AuthGuard);
   CourseRoute(app, channel);

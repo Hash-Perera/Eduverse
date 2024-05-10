@@ -19,36 +19,44 @@ class LessonService {
 
   //Create lessons
   async CreateLesson(payload, res) {
-    const newLesson = await Lesson.create(payload);
-    const course = await Course.findById(payload.course);
+    try {
+      const newLesson = await Lesson.create(payload);
+      const course = await Course.findById(payload.course);
 
-    if (!course) {
-      res.status(404).send({
-        success: false,
-        data: null,
-        message: "Course not found",
+      if (!course) {
+        res.status(404).send({
+          success: false,
+          data: null,
+          message: "Course not found",
+        });
+      }
+
+      course.lessons.push(newLesson._id);
+
+      await course.save();
+
+      res.status(200).send({
+        success: true,
+        data: newLesson,
+        message: "Lesson created successfully",
       });
+    } catch (err) {
+      console.log(err);
     }
-
-    course.lessons.push(newLesson._id);
-
-    await course.save();
-
-    res.status(200).send({
-      success: true,
-      data: newLesson,
-      message: "Lesson created successfully",
-    });
   }
 
   //Get lessons for a course
   async GetLessons(payload, res) {
-    const lessons = await Lesson.find({ course: payload.data.courseId });
-    res.status(200).send({
-      success: true,
-      data: lessons,
-      message: "Lessons fetched successfully",
-    });
+    try {
+      const lessons = await Lesson.find({ course: payload.data.courseId });
+      res.status(200).send({
+        success: true,
+        data: lessons,
+        message: "Lessons fetched successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   //get all lessons
@@ -63,56 +71,64 @@ class LessonService {
 
   //delete lesson
   async DeleteLesson(payload, res) {
-    const lesson = await Lesson.findByIdAndDelete(payload.lessonId);
+    try {
+      const lesson = await Lesson.findByIdAndDelete(payload.lessonId);
 
-    if (!lesson) {
-      return res.status(404).send({
-        success: false,
-        message: "Lesson not found",
+      if (!lesson) {
+        return res.status(404).send({
+          success: false,
+          message: "Lesson not found",
+        });
+      }
+
+      const courseId = lesson.course;
+      const course = await Course.findById(courseId);
+
+      if (!course) {
+        return res.status(404).send({
+          success: false,
+          message: "Course not found",
+        });
+      }
+
+      course.lessons = course.lessons.filter(
+        (id) => id.toString() !== lesson._id.toString()
+      );
+
+      await course.save();
+
+      res.status(200).send({
+        success: true,
+        data: lesson,
+        message: "Lesson deleted successfully",
       });
+    } catch (err) {
+      console.log(err);
     }
-
-    const courseId = lesson.course;
-    const course = await Course.findById(courseId);
-
-    if (!course) {
-      return res.status(404).send({
-        success: false,
-        message: "Course not found",
-      });
-    }
-
-    course.lessons = course.lessons.filter(
-      (id) => id.toString() !== lesson._id.toString()
-    );
-
-    await course.save();
-
-    res.status(200).send({
-      success: true,
-      data: lesson,
-      message: "Lesson deleted successfully",
-    });
   }
 
   //update lesson
   async UpdateLesson(payload, res) {
-    const lesson = await Lesson.findByIdAndUpdate(payload.lessonId, payload, {
-      new: true,
-    });
-
-    if (!lesson) {
-      return res.status(404).send({
-        success: false,
-        message: "Lesson not found",
+    try {
+      const lesson = await Lesson.findByIdAndUpdate(payload.lessonId, payload, {
+        new: true,
       });
-    }
 
-    res.status(200).send({
-      success: true,
-      data: lesson,
-      message: "Lesson updated successfully",
-    });
+      if (!lesson) {
+        return res.status(404).send({
+          success: false,
+          message: "Lesson not found",
+        });
+      }
+
+      res.status(200).send({
+        success: true,
+        data: lesson,
+        message: "Lesson updated successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 

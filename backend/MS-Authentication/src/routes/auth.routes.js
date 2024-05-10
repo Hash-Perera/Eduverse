@@ -1,12 +1,12 @@
 const AuthService = require("../services/auth.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+//const { SubscribeMessages } = require("../utils/index.utils");
 
 module.exports = (app, channel) => {
   const service = new AuthService();
   const baseurl = "/user";
 
   //To listen
-  SubscribeMessages(channel, service);
+  //SubscribeMessages(channel, service);
 
   //Other routes
   app.post(`${baseurl}/register`, async (req, res) => {

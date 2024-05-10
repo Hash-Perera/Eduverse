@@ -96,6 +96,7 @@ export default function PrimaryAppBar() {
   //! Logout
   const handleLogOut = () => {
     localStorage.removeItem("ds-token");
+    localStorage.removeItem("ds-role");
     Navigate("/");
   };
 

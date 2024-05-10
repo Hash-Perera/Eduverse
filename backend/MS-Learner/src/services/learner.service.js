@@ -70,7 +70,7 @@ class LearnerService {
   }
 
   //get enrolled courses
-  async getEnrolledCourses(payload, res) {
+  async getEnrolledCourses(payload, res, token) {
     const learner = await Learner.findOne({
       student_id: payload.student_id,
     });
@@ -80,14 +80,40 @@ class LearnerService {
       };
     }
 
+    const enrolledCourseIds = learner.enrolledCourses.map(
+      (course) => course.courseId
+    );
+
+    const courseDetailsPromises = enrolledCourseIds.map(async (courseId) => {
+      const courseDetailsResponse = await axios.get(
+        `http://localhost:8000/ms-course/course/get-by-id/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+
+          data: { id: courseId },
+        }
+      );
+      return courseDetailsResponse.data;
+    });
+
+    const courseDetails = await Promise.all(courseDetailsPromises);
+
+    const response = {
+      /*  enrolledCourses: learner.enrolledCourses, */
+      courseDetails: courseDetails,
+    };
+
     return {
-      data: learner.enrolledCourses,
+      success: true,
+      data: response,
       message: "Courses fetched successfully",
     };
   }
 
   //get enrolled course by course id
-  async getEnrolledCourseById(payload, res) {
+  async getEnrolledCourseById(payload, res, token) {
     try {
       const learner = await Learner.findOne({
         student_id: payload.student_id,
@@ -107,63 +133,65 @@ class LearnerService {
         };
       }
 
-      axios
-        .get(
-          "http://localhost:8000/ms-course/course/get-by-id" + payload.courseId
-        )
-        .then((response) => {
-          if (response.data.success === false) {
-            return res.status(403).json({
-              message: "Course not found",
-            });
-          }
-        });
+      // Call course service endpoint to get course details
+      const courseDetailsResponse = await axios.get(
+        `http://localhost:8000/ms-course/course/get-by-id/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: { id: payload.courseId },
+        }
+      );
 
-      const coursedetails = response.data;
+      const courseDetails = courseDetailsResponse.data;
 
       const response = {
         courseId: course.courseId,
         enrolledOn: course.enrolledOn,
         progress: course.progress,
+        courseDetails: courseDetails,
       };
 
       return {
         success: true,
         data: response,
-        coursedetails,
         message: "Course fetched successfully",
       };
     } catch (err) {
-      return res.status(500).send({
+      return {
         message: err.message,
-      });
+      };
     }
   }
 
   //get course progress
   async getCourseProgress(payload, res) {
     const learner = await Learner.findOne({
-      student_id: payload.data.student_id,
+      student_id: payload.student_id,
     });
     if (!learner) {
-      return res.status(403).json({
+      return {
         message: "No courses enrolled",
-      });
+      };
     }
 
     const course = learner.enrolledCourses.find(
-      (course) => course.courseId === params.courseId
+      (course) => course.courseId === payload.courseId
     );
     if (!course) {
-      return res.status(403).json({
+      return {
         message: "Course not enrolled",
-      });
+      };
     }
+    const courseProgress = {
+      progress: course.progress,
+    };
 
-    return res.status(200).send({
-      data: course.progress,
+    return {
+      data: courseProgress,
       message: "Course progress fetched successfully",
-    });
+    };
   }
   //update course progress
   async updateCourseProgress(payload, res) {
@@ -171,18 +199,18 @@ class LearnerService {
       student_id: payload.student_id,
     });
     if (!learner) {
-      return res.status(403).json({
+      return {
         message: "No courses enrolled",
-      });
+      };
     }
 
     const courseIndex = learner.enrolledCourses.findIndex(
       (course) => course.courseId === payload.courseId
     );
     if (courseIndex === -1) {
-      return res.status(403).json({
+      return {
         message: "Course not enrolled",
-      });
+      };
     }
 
     // Update the progress of the course
@@ -195,10 +223,10 @@ class LearnerService {
         message: "Course progress updated successfully",
       };
     } catch (error) {
-      return res.status(500).json({
+      return {
         success: false,
         message: "Error updating course progress",
-      });
+      };
     }
   }
 
@@ -208,18 +236,18 @@ class LearnerService {
       student_id: payload.student_id,
     });
     if (!learner) {
-      return res.status(403).json({
+      return {
         message: "No courses enrolled",
-      });
+      };
     }
 
     const courseIndex = learner.enrolledCourses.findIndex(
       (course) => course.courseId === payload.courseId
     );
     if (courseIndex === -1) {
-      return res.status(403).json({
+      return {
         message: "Course not enrolled",
-      });
+      };
     }
     // Remove the course from the enrolled courses
     learner.enrolledCourses.splice(courseIndex, 1);
@@ -231,9 +259,9 @@ class LearnerService {
         message: "Course unenrolled successfully",
       };
     } catch (error) {
-      return res.status(500).json({
+      return {
         message: "Error unenrolling course",
-      });
+      };
     }
   }
 }

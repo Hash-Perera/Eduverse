@@ -23,7 +23,6 @@ const AuthMiddleware = (req, res, next) => {
     })
     .then((response) => {
       req.user = response.data.data;
-      
       next();
     })
     .catch((error) => {
@@ -31,7 +30,6 @@ const AuthMiddleware = (req, res, next) => {
         .status(403)
         .json({ success: false, message: "Error !!! Unauthorized" });
     });
-    
 };
 
 module.exports = AuthMiddleware;
