@@ -24,8 +24,8 @@ module.exports = (app, channel) => {
     }
   });
 
-  app.get(`${baseUrl}/get-by-id`, async (req, res) => {
-    const result = await service.GetCourseById(req.body, res);
+  app.get(`${baseUrl}/get-by-id/:id`, async (req, res) => {
+    const result = await service.GetCourseById(req.params, res);
     res.send(result);
   });
 

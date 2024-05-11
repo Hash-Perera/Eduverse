@@ -66,3 +66,16 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* decoration null for Link tag */
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+Link:hover {
+  text-decoration: none;
+  color: black;
+}
