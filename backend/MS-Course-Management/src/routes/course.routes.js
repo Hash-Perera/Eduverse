@@ -10,11 +10,6 @@ module.exports = (app, channel) => {
 
   //Other routes
   //TODO: complete this functions
-  /*   app.post(`${baseUrl}/create`, async (req, res) => {
-    const result = await service.CreateCourse(req.body, res);
-    res.send(result);
-  }); */
-
   app.put(`${baseUrl}/status-update`, async (req, res) => {
     try {
       const result = await service.UpdateCourseStatus(req.body, res);
@@ -54,9 +49,9 @@ module.exports = (app, channel) => {
   });
 
   //delete course
-  app.delete(`${baseUrl}/delete`, async (req, res) => {
+  app.delete(`${baseUrl}/delete/:id`, async (req, res) => {
     try {
-      const result = await service.DeleteCourse(req.body, res);
+      const result = await service.DeleteCourse(req.params, res);
       res.send(result);
     } catch (err) {
       console.log(err);
@@ -81,7 +76,11 @@ module.exports = (app, channel) => {
   //getInstructorCourses
   app.get(`${baseUrl}/instructor-courses`, async (req, res) => {
     try {
-      const result = await service.GetInstructorCourses(req);
+      const body = {
+        ...req.query,
+        instructor: req.user.id,
+      };
+      const result = await service.GetInstructorCourses(body);
       res.send(result);
     } catch (err) {
       console.log(err);
