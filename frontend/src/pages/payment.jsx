@@ -15,10 +15,11 @@ const stripePromise = loadStripe('pk_test_51PDXWi05ad56a1pkkN5YcyjchfMdlOVbc2BmZ
 
 export default function payment() {
   const courseData = {
-    title: "Data Structures",
+    _id: "12346637bda70e17790dc64c9f1d",
+    name: "Data Structures",
     description: "Learn Data Structures from scratch",
     price: 2000,
-    imageUrl:
+    image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNP5PYOUreMixh2t437ZZZ25RhKPjJ4egyKQ&s",
   }
   const fetchClientSecret = useCallback(async () => {

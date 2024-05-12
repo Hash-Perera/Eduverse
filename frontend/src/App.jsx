@@ -15,6 +15,7 @@ import Payment from "./pages/payment";
 import Successpage from "./pages/successpage";
 import AddCourse from "./pages/AddCourse";
 import AddLesson from "./pages/AddLesson";
+import PaymentHistory from "./pages/PaymentHistory";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/success" element={<Successpage/>}/>
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/add-lesson" element={<AddLesson />} />
+          <Route path="/payment-history" element={<PaymentHistory/>}/>
         </Routes>
       </BrowserRouter>
     </>
