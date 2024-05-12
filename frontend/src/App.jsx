@@ -17,6 +17,7 @@ import AddCourse from "./pages/AddCourse";
 import AddLesson from "./pages/AddLesson";
 import AllCourses from "./pages/AllCourses";
 import CoursePage from "./pages/CoursePage";
+import UpdateCourse from "./pages/UpdateCourse";
 
 function App() {
   return (
@@ -38,7 +39,8 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<Successpage />} />
           <Route path="/add-course" element={<AddCourse />} />
-          <Route path="/add-lesson" element={<AddLesson />} />
+          <Route path="/update-course/:id" element={<UpdateCourse />} />
+          <Route path="/add-lesson/:id" element={<AddLesson />} />
           <Route path="/all-dashboard" element={<AllCourses />} />
           <Route path="/course/:id" element={<CoursePage />} />
         </Routes>

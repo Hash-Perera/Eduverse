@@ -8,6 +8,7 @@ import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -25,53 +26,74 @@ const Login = () => {
 
   return (
     <>
-      <div className="p-5" style={{ height: "100vh" }}>
-        <Grid container className="main-box">
-          <Grid
-            item
-            xs={6}
-            className="d-flex align-items-center justify-content-center p-4"
-          >
-            <div className="hero-image-container">
-              <img className="hero-image" src={Girl1} alt="Your Image" />
-            </div>
-          </Grid>
-          <Grid item xs={6} className="p-4">
-            <Typography variant="h4">Login</Typography>
-            <Formik
-              initialValues={{ ...INITIAL_FORM_STATE }}
-              validationSchema={FORM_VALIDATION}
-              onSubmit={async (values) => {
-                axios
-                  .post("http://localhost:8000/ms-auth/user/login", {
-                    data: values,
-                  })
-                  .then((res) => {
-                    localStorage.setItem("ds-token", res.data.data.token);
-                    localStorage.setItem("ds-role", res.data.data.role);
-                    console.log(res.data);
-                    console.log(res.data.message);
-                    Navigate("/dashboard");
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+      >
+        <div className="p-5" style={{ height: "100vh" }}>
+          <Grid container className="main-box">
+            <Grid
+              item
+              xs={6}
+              className="d-flex align-items-center justify-content-center p-4"
             >
-              <Form style={{ width: "70%" }}>
-                <div className="m-5"></div>
-                <InputField name="email" label="Email" />
-                <div className="m-3"></div>
-                <InputField name="password" label="Password" />
-                <div className="m-5"></div>
-                <Button type="submit" variant="contained" color="primary">
-                  Login
-                </Button>
-              </Form>
-            </Formik>
+              <div className="hero-image-container">
+                <img className="hero-image" src={Girl1} alt="Your Image" />
+              </div>
+            </Grid>
+            <Grid item xs={6} className="p-4">
+              <Typography variant="h4">Login</Typography>
+              <Formik
+                initialValues={{ ...INITIAL_FORM_STATE }}
+                validationSchema={FORM_VALIDATION}
+                onSubmit={async (values) => {
+                  axios
+                    .post("http://localhost:8000/ms-auth/user/login", {
+                      data: values,
+                    })
+                    .then((res) => {
+                      localStorage.setItem("ds-token", res.data.data.token);
+                      localStorage.setItem("ds-role", res.data.data.role);
+                      console.log(res.data);
+                      console.log(res.data.message);
+                      if (
+                        res.data.data.role === "Admin" ||
+                        res.data.data.role === "Instructor"
+                      ) {
+                        Navigate("/all-dashboard");
+                      } else {
+                        Navigate("/dashboard");
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+              >
+                <Form style={{ width: "70%" }}>
+                  <div className="m-5"></div>
+                  <InputField name="email" label="Email" />
+                  <div className="m-3"></div>
+                  <InputField name="password" label="Password" />
+                  <div className="m-5"></div>
+                  <Button type="submit" variant="contained" color="primary">
+                    Login
+                  </Button>
+                </Form>
+              </Formik>
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
+        </div>
+      </motion.div>
     </>
   );
 };

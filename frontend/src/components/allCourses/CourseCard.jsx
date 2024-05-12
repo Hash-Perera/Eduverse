@@ -1,6 +1,8 @@
 import React from "react";
 import { Chip } from "@mui/material";
 import { Link } from "react-router-dom";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 const CourseCard = ({ course }) => {
   const role = localStorage.getItem("ds-role");
   return (
@@ -9,9 +11,7 @@ const CourseCard = ({ course }) => {
         <div className="col-span-1">
           <img
             src={
-              course.image
-                ? `/images/${course.image}`
-                : "https://via.placeholder.com/150"
+              course.image ? `/images/${course.image}` : "/images/sampleImg.png"
             }
             alt="course"
             className="w-full h-[175px] object-cover"
@@ -28,7 +28,10 @@ const CourseCard = ({ course }) => {
             </div>
             <div className="text-gray-500">{course?.description}</div>
             <div className="flex justify-between">
-              <div className="text-gray-500">{course?.category}</div>
+              <div className="text-gray-500 flex items-center gap-2">
+                <AutoAwesomeMosaicIcon />
+                {course?.category} {""} Development
+              </div>
               {role === "Admin" || role === "Instructor" ? (
                 <Chip
                   color={course?.status === "pending" ? "error" : "success"}
@@ -36,7 +39,11 @@ const CourseCard = ({ course }) => {
                 />
               ) : null}
             </div>
-            <div>{course?.duration}</div>
+
+            <div className=" flex items-center gap-2">
+              <AccessTimeFilledIcon />
+              {course?.duration}
+            </div>
           </div>
         </div>
       </div>

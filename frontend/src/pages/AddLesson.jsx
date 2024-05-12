@@ -4,11 +4,27 @@ import Link from "@mui/material/Link";
 import { Button, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import InputField from "../components/form-ui/inputfield";
-import { styled } from "@mui/material/styles";
+import { motion } from "framer-motion";
 import PrimaryAppBar from "../components/header";
+import { useParams } from "react-router-dom";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 const AddLesson = () => {
-  const [course, setCourseId] = useState("663d09e38029e0ac250a0edc");
+  const { id } = useParams();
+  const [file, setFile] = useState(null);
   const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
@@ -30,27 +46,28 @@ const AddLesson = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const body = {
-        ...values,
-        course,
-      };
+      console.log(values);
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("video", values.video);
+      formData.append("duration", values.duration);
+      formData.append("description", values.description);
+      formData.append("course", id);
+      formData.append("notes", file);
 
-      console.log("body", body);
+      console.log(formData);
 
-      const response = await fetch(
-        "http://localhost:8000/ms-course/lesson/create",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch("http://localhost:8002/lesson/create", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
 
       if (response.ok) {
         alert("Data submitted successfully");
+        window.location.href = `/course/${id}`;
       } else {
         console.error("Failed to submit data");
       }
@@ -62,58 +79,86 @@ const AddLesson = () => {
     <>
       {" "}
       <PrimaryAppBar />
-      <div role="presentation" className=" px-5">
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
-            My Courses
-          </Link>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+        className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
+      >
+        <div role="presentation" className=" px-5">
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/all-dashboard">
+              My Courses
+            </Link>
 
-          <Link
-            underline="hover"
-            color="text.primary"
-            href="/add-course"
-            aria-current="page"
-          >
-            Add Lessons
-          </Link>
-        </Breadcrumbs>
+            <Link
+              underline="hover"
+              color="text.primary"
+              href="/add-course"
+              aria-current="page"
+            >
+              Add Lessons
+            </Link>
+          </Breadcrumbs>
 
-        <Typography variant="h4" className="p-2">
-          Add Lesson
-        </Typography>
+          <Typography variant="h4" className="p-2">
+            Add Lesson
+          </Typography>
 
-        <div className="px-5 " style={{ height: "100vh", width: "60%" }}>
-          <Formik
-            initialValues={{
-              title: "",
-              video: "",
-              duration: "",
-              description: "",
-            }}
-            onSubmit={(values) => {
-              handleSubmit(values);
-            }}
-          >
-            <Form style={{ width: "70%" }}>
-              <div className="m-5"></div>
-              <InputField name="title" label="Lesson Title" />
-              <div className="m-3"></div>
+          <div className="px-5 " style={{ height: "100vh", width: "80%" }}>
+            <Formik
+              initialValues={{
+                title: "",
+                video: "",
+                duration: "",
+                description: "",
+              }}
+              onSubmit={(values) => {
+                handleSubmit(values);
+              }}
+            >
+              <Form style={{ width: "70%" }}>
+                <div className="m-5"></div>
+                <InputField name="title" label="Lesson Title" />
+                <div className="m-3"></div>
 
-              <InputField name="duration" label="Lesson Duration" />
-              <div className="m-3"></div>
-              <InputField name="video" label="Lesson Video" />
-              <div className="m-3"></div>
-              <InputField name="description" label="Lesson Description" />
-              <div className="m-3"></div>
+                <InputField name="duration" label="Lesson Duration" />
+                <div className="m-3"></div>
+                <InputField name="video" label="Lesson Video" />
+                <div className="m-3"></div>
+                <InputField name="description" label="Lesson Description" />
+                <div className="m-3"></div>
+                <Button
+                  component="label"
+                  role={undefined}
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Notes
+                  <VisuallyHiddenInput
+                    name="notes"
+                    type="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </Button>
 
-              <div className="m-3"></div>
-              <Button variant="contained" color="primary" type="submit">
-                Add Lesson
-              </Button>
-            </Form>
-          </Formik>
+                <div className="m-3"></div>
+                <Button variant="contained" color="primary" type="submit">
+                  Add Lesson
+                </Button>
+              </Form>
+            </Formik>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
