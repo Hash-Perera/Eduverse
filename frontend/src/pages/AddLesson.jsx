@@ -9,6 +9,7 @@ import PrimaryAppBar from "../components/header";
 import { useParams } from "react-router-dom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import toast, { Toaster } from "react-hot-toast";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -66,12 +67,13 @@ const AddLesson = () => {
       });
 
       if (response.ok) {
-        alert("Data submitted successfully");
-        window.location.href = `/course/${id}`;
+        toast.success("Lesson added successfully");
+        window.location.href = `/course-page/${id}`;
       } else {
         console.error("Failed to submit data");
       }
     } catch (error) {
+      toast.error("Failed to add lesson");
       alert(error);
     }
   };
@@ -93,7 +95,7 @@ const AddLesson = () => {
         viewport={{ once: true }}
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
-        <div role="presentation" className=" px-5">
+        <div role="presentation" className="px-5 ">
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/all-dashboard">
               My Courses
@@ -159,6 +161,7 @@ const AddLesson = () => {
           </div>
         </div>
       </motion.div>
+      <Toaster />
     </>
   );
 };

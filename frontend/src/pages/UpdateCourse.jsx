@@ -11,6 +11,7 @@ import Dropdown from "../components/form-ui/dropdown";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -75,10 +76,11 @@ const UpdateCourse = () => {
 
       if (response.ok) {
         console.log("Data submitted successfully");
-        alert("Data submitted successfully");
-        window.location.href = `/course/${id}`;
+        toast.success("Course Updated Successfully!");
+        window.location.href = `/course-page/${id}`;
       } else {
-        console.error("Failed to submit data");
+        console.log("Data not submitted");
+        toast.error("Course Update Failed!");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -103,7 +105,7 @@ const UpdateCourse = () => {
         viewport={{ once: true }}
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
-        <div role="presentation" className=" px-5">
+        <div role="presentation" className="px-5 ">
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href={`/all-dashboard`}>
               All Courses
@@ -191,6 +193,7 @@ const UpdateCourse = () => {
           ) : null}
         </div>
       </motion.div>
+      <Toaster />
     </>
   );
 };

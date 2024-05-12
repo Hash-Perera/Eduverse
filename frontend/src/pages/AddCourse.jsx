@@ -9,6 +9,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import PrimaryAppBar from "../components/header";
 import Dropdown from "../components/form-ui/dropdown";
 import { motion } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -66,12 +67,13 @@ const AddCourse = () => {
 
       if (response.ok) {
         console.log("Data submitted successfully");
-        alert("Data submitted successfully");
+        toast.success("Course added successfully");
       } else {
         console.error("Failed to submit data");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
+      toast.error("Failed to add course");
     }
   };
   return (
@@ -92,10 +94,10 @@ const AddCourse = () => {
         viewport={{ once: true }}
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
-        <div role="presentation" className=" px-5">
+        <div role="presentation" className="px-5 ">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              My Courses
+            <Link underline="hover" color="inherit" href="/all-dashboard">
+              Courses
             </Link>
 
             <Link
@@ -170,6 +172,7 @@ const AddCourse = () => {
           </div>
         </div>
       </motion.div>
+      <Toaster />
     </>
   );
 };

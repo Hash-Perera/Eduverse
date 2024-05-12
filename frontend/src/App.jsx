@@ -23,6 +23,7 @@ import AllCourses from "./pages/AllCourses";
 import CoursePage from "./pages/CoursePage";
 import UpdateCourse from "./pages/UpdateCourse";
 import PaymentHistory from "./pages/PaymentHistory";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/payment-history" element={<PaymentHistory />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </>
   );
 }
