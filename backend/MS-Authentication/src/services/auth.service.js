@@ -37,9 +37,10 @@ class AuthService {
     const data = payload.data;
     const isExist = await User.findOne({ email: data.email });
     if (!isExist) {
-      return res
-        .status(403)
+      res
+        .status(401)
         .json({ success: false, message: "User not found. Please try again." });
+      return;
     }
     const user = await User.findOne({ email: data.email }).populate("role");
 
@@ -136,6 +137,41 @@ class AuthService {
     });
   }
 
+  async SendOTPLogout(data, res) {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const userEmail = data.email;
+
+    const userExist = await User.findOne({ email: userEmail });
+    if (!userExist) {
+      res.status(401).json({
+        success: false,
+        message: "Invalid Email address",
+      });
+      return;
+    }
+
+    const user = await User.findOneAndUpdate(
+      { email: userEmail },
+      { otp: otp },
+      { new: true }
+    );
+
+    const notifiResp = await axios.post(
+      "http://localhost:8000/ms-notification/notification/send-otp-logout",
+      {
+        userId: user._id,
+        otp: otp,
+        email: userEmail,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: user._id,
+      message: "OTP sent successfully",
+    });
+  }
+
   async ResetPassword(req, userId, data, res) {
     const user = await User.findById(userId);
 
@@ -173,6 +209,46 @@ class AuthService {
         message: "Password updated successfully",
       });
     }
+    return res.status(403).json({
+      success: false,
+      message: "OTP is incorrect. Please try again.",
+    });
+  }
+
+  async ResetPasswordLogOut(data, res) {
+    console.log(data);
+    const user = await User.findById(data.userId);
+
+    if (data.otp == user.otp) {
+      const encryptedPassword = await argon2.hash(data.newPassword);
+      const updatedUser = await User.findByIdAndUpdate(data.userId, {
+        password: encryptedPassword,
+      });
+
+      const dashboardNotification = {
+        title: "Password reset",
+        message: "Password reset successfully",
+        data: {},
+        viewed: false,
+        userId: data.userId,
+      };
+
+      axios
+        .post(
+          "http://localhost:8000/ms-notification/notification/create-dashboard-logout",
+          dashboardNotification
+        )
+        .then((response) => {
+          console.log(response.data);
+        });
+
+      return res.status(200).json({
+        success: true,
+        data: updatedUser,
+        message: "Password updated successfully",
+      });
+    }
+
     return res.status(403).json({
       success: false,
       message: "OTP is incorrect. Please try again.",

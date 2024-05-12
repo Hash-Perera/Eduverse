@@ -46,4 +46,12 @@ module.exports = (app, channel) => {
     const userId = req.user;
     return await service.ResetPassword(req, userId, req.body, res);
   });
+
+  app.post(`${baseurl}/reset-password/with-body`, async (req, res) => {
+    return await service.ResetPasswordLogOut(req.body, res);
+  });
+
+  app.post(`${baseurl}/send-otp-logout`, async (req, res) => {
+    return await service.SendOTPLogout(req.body, res);
+  });
 };

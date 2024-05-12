@@ -13,6 +13,11 @@ module.exports = (app, channel) => {
     res.send(result);
   });
 
+  app.post(`${baseurl}/create-dashboard-logout`, async (req, res) => {
+    const result = await service.DashboardNotification(req.body, res);
+    res.send(result);
+  });
+
   app.get(`${baseurl}/get-notifications-10`, async (req, res) => {
     return await service.getNotifications(req, res);
     // res.send(result);
@@ -31,6 +36,12 @@ module.exports = (app, channel) => {
   app.post(`${baseurl}/send-otp`, async (req, res) => {
     const { userId, otp, email } = req.body;
     const html = ` <h1>Hello user</h1> <p>Your OTP to change password ${otp}<p> <br> <p>Regards<br>Thank you<br>Eduverse</p> `;
+    return await service.SendEmail(email, "Password Reset", html, res);
+  });
+
+  app.post(`${baseurl}/send-otp-logout`, async (req, res) => {
+    const { userId, otp, email } = req.body;
+    const html = ` <h1>Hello user</h1> <p>Your OTP to logout ${otp}<p> <br> <p>Regards<br>Thank you<br>Eduverse</p> `;
     return await service.SendEmail(email, "Password Reset", html, res);
   });
 };
