@@ -7,7 +7,6 @@ const lessonSchema = new mongoose.Schema({
   },
   video: {
     type: String,
-    required: true,
   },
   duration: {
     type: String,
@@ -16,6 +15,9 @@ const lessonSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+  },
+  notes: {
+    type: String,
   },
   course: {
     type: mongoose.Schema.Types.ObjectId,

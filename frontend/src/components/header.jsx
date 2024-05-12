@@ -353,7 +353,7 @@ export default function PrimaryAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search> */}
-          <img src={Logo1} alt="Your Image" style={{ height: "22rem" }} />
+          <img src={Logo1} alt="Your Image" style={{ height: "12rem" }} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {token && (

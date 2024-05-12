@@ -162,59 +162,60 @@ class CourseService {
   //get courses for specified instructor
   async GetInstructorCourses(payload) {
     try {
-      if (payload.body.instructor) {
-        if (payload.query.category === "all") {
-          const courses = await Course.find({
-            instructor: payload.body.instructor,
-            status: payload.query.status,
+      if (payload.category === "all") {
+        const courses = await Course.find({
+          status: payload.status,
+          instructor: payload.instructor,
+        })
+          .populate({
+            path: "lessons",
+            model: "Lesson",
           })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
+          .exec();
 
-          return courses;
-        } else {
-          const courses = await Course.find({
-            instructor: payload.body.instructor,
-            category: payload.query.category,
-            status: payload.query.status,
-          })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
-
-          return courses;
-        }
+        return courses;
       } else {
-        if (payload.query.category === "all") {
-          const courses = await Course.find({ status: payload.query.status })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
-
-          return courses;
-        } else {
-          const courses = await Course.find({
-            category: payload.query.category,
-            status: payload.query.status,
+        const courses = await Course.find({
+          category: payload.category,
+          status: payload.status,
+          instructor: payload.instructor,
+        })
+          .populate({
+            path: "lessons",
+            model: "Lesson",
           })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
+          .exec();
 
-          return courses;
-        }
+        return courses;
       }
     } catch (err) {
       console.log(err);
+    }
+    if (payload.query.category === "all") {
+      const courses = await Course.find({
+        instructor: payload.body.instructor,
+        status: payload.query.status,
+      })
+        .populate({
+          path: "lessons",
+          model: "Lesson",
+        })
+        .exec();
+
+      return courses;
+    } else {
+      const courses = await Course.find({
+        instructor: payload.body.instructor,
+        category: payload.query.category,
+        status: payload.query.status,
+      })
+        .populate({
+          path: "lessons",
+          model: "Lesson",
+        })
+        .exec();
+
+      return courses;
     }
   }
 
