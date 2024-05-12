@@ -26,6 +26,8 @@ const PublishMessage = (channel, routingKey, msg) => {
   console.log(`${msg} sent: ${routingKey} service`);
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
 //? Consume message from queue
 const SubscribeMessages = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
@@ -37,7 +39,7 @@ const SubscribeMessages = async (channel, service) => {
   // This consumer will concume messages from Notification Only
   channel.bindQueue(q.queue, EXCHANGE_NAME, PAYMENT_ROUTING_KEY);
 
-  //!concume messages from queue
+  //!consume messages from queue
   channel.consume(q.queue, (msg) => {
     if (msg.content) {
       service.SubscribeEvents(msg.content.toString());

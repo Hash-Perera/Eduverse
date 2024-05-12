@@ -42,6 +42,9 @@ app.use("/ms-course", proxyCourse);
 app.use("/ms-learner", proxyLearner);
 app.use("/ms-notification", proxyNotification);
 app.use("/ms-payment", proxyPayment);
+app.use("/", (req, res) => {
+  res.send("API Gateway is running");
+});
 
 //! Attach custom middleware to handle connection errors
 app.use(connectionErrorHandler);

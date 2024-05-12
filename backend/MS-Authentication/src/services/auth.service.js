@@ -1,7 +1,7 @@
 const User = require("../schema/user.schema");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
-const { PublishMessage } = require("../utils/index.utils");
+//const { PublishMessage } = require("../utils/index.utils");
 const axios = require("axios");
 
 class AuthService {
@@ -180,10 +180,10 @@ class AuthService {
   }
 
   //! =======  DO not Delete this function =========
-  async RegisterTest(req, res, channel) {
-    console.log("Register test");
-    PublishMessage(channel, "Course", JSON.stringify({ event: "GET_COURSES" }));
-  }
+  // async RegisterTest(req, res, channel) {
+  //   console.log("Register test");
+  //   PublishMessage(channel, "Course", JSON.stringify({ event: "GET_COURSES" }));
+  // }
 }
 
 module.exports = AuthService;

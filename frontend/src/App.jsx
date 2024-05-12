@@ -15,6 +15,11 @@ import AllCourses from "./pages/allcourses";
 import CourseDetails from "./pages/coursedetails";
 import MyCourses from "./pages/mycourses";
 import MyCourseDetails from "./pages/mycoursedetails";
+import Payment from "./pages/payment";
+import Successpage from "./pages/successpage";
+import AddCourse from "./pages/AddCourse";
+import AddLesson from "./pages/AddLesson";
+import PaymentHistory from "./pages/PaymentHistory";
 
 function App() {
   return (
@@ -37,6 +42,11 @@ function App() {
           <Route path="/course/:id" element={<CourseDetails />} />
           <Route path="/mycourses" element={<MyCourses />} />
           <Route path="/mycourse/:id" element={<MyCourseDetails />} />
+          <Route path="/payment" element={<Payment/>}/>
+          <Route path="/success" element={<Successpage/>}/>
+          <Route path="/add-course" element={<AddCourse />} />
+          <Route path="/add-lesson" element={<AddLesson />} />
+          <Route path="/payment-history" element={<PaymentHistory/>}/>
         </Routes>
       </BrowserRouter>
     </>
