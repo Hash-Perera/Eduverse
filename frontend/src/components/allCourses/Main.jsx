@@ -9,7 +9,7 @@ const Main = ({ courses }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (
@@ -20,7 +20,7 @@ const Main = ({ courses }) => {
             <>
               <Box sx={{ width: 1000 }}>
                 {courses.map((course) => (
-                  <div className=" py-3 flex gap-2 w-full">
+                  <div className="flex w-full gap-2 py-3 ">
                     <div>
                       <Skeleton
                         variant="rectangular"
@@ -46,7 +46,7 @@ const Main = ({ courses }) => {
             ))
           )
         ) : (
-          <h1 className="text-2xl font-semibold items-center text-center mb-8">
+          <h1 className="items-center mb-8 text-2xl font-semibold text-center">
             No Courses Found
           </h1>
         )}

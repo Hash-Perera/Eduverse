@@ -6,6 +6,7 @@ import axios from "axios";
 import Accordion from "react-bootstrap/Accordion";
 import { Checkbox } from "@mui/material";
 import { PieChart } from "react-minimal-pie-chart";
+import toast, { Toaster } from "react-hot-toast";
 
 const MyCourseDetails = () => {
   const { id } = useParams();
@@ -98,7 +99,7 @@ const MyCourseDetails = () => {
           }
         )
         .then((response) => {
-          console.log(response);
+          toast.success("Course Unenrolled Successfully!");
           Navigate("/mycourses");
         });
     } catch (error) {
@@ -129,7 +130,7 @@ const MyCourseDetails = () => {
                   : "https://via.placeholder.com/400"
               }
               alt="Course"
-              className=" object-cover rounded-lg"
+              className="object-cover rounded-lg "
             />
           </div>
           <div className="course-details-info ">
@@ -221,6 +222,7 @@ const MyCourseDetails = () => {
             ))}
         </Accordion>
       </div>
+      <Toaster />
     </>
   );
 };

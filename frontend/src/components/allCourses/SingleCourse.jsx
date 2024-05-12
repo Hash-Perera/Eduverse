@@ -17,6 +17,7 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import LanguageIcon from "@mui/icons-material/Language";
+import toast, { Toaster } from "react-hot-toast";
 
 const style = {
   position: "absolute",
@@ -107,11 +108,11 @@ const SingleCourse = () => {
         }
       );
       if (response.status === 200) {
-        alert("Course Approved Successfully");
+        toast.success("Course Approved Successfully");
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Error Approving Course");
     }
   };
 
@@ -128,11 +129,11 @@ const SingleCourse = () => {
         }
       );
       if (response.status === 200) {
-        alert("Course Deleted Successfully");
+        toast.success("Course Deleted Successfully");
         window.location.href = "/all-dashboard";
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Error Deleting Course");
     }
   };
 
@@ -149,11 +150,11 @@ const SingleCourse = () => {
         }
       );
       if (response.status === 200) {
-        alert("Lesson Deleted Successfully");
+        toast.success("Lesson Deleted Successfully");
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Error Deleting Lesson");
     }
   };
 
@@ -187,12 +188,12 @@ const SingleCourse = () => {
             {course?.name}
           </Link>
         </Breadcrumbs>
-        <h1 className="text-4xl font-bold text-center mb-8">
+        <h1 className="mb-8 text-4xl font-bold text-center">
           {" "}
           {course.title}{" "}
         </h1>
         <div className="max-w-[1200px] mx-auto  ">
-          <div className="flex items-center md:flex-row gap-4 flex-col">
+          <div className="flex flex-col items-center gap-4 md:flex-row">
             <img
               src={
                 course.image
@@ -202,28 +203,28 @@ const SingleCourse = () => {
               alt={course.title}
               className="w-full h-full max-w-[500px] max-h-[500px] object-contain  "
             />
-            <div className=" flex flex-col">
-              <p className="text-lg font-medium mb-4">
+            <div className="flex flex-col ">
+              <p className="mb-4 text-lg font-medium">
                 {" "}
                 {course?.description}{" "}
               </p>
-              <div className=" flex gap-2">
+              <div className="flex gap-2 ">
                 <MonetizationOnIcon />
-                <p className="text-md text-gray-400 mb-4">{course?.price} </p>
+                <p className="mb-4 text-gray-400 text-md">{course?.price} </p>
               </div>
-              <div className=" flex gap-2">
+              <div className="flex gap-2 ">
                 <div>
                   <AccessTimeFilledIcon />
                 </div>
-                <p className="text-md mb-4"> {course?.duration} </p>
+                <p className="mb-4 text-md"> {course?.duration} </p>
               </div>
-              <div className=" flex gap-2">
+              <div className="flex gap-2 ">
                 <AutoAwesomeMosaicIcon />
-                <p className="text-md mb-4"> {course.category} Development</p>
+                <p className="mb-4 text-md"> {course.category} Development</p>
               </div>
-              <div className=" flex gap-2">
+              <div className="flex gap-2 ">
                 <LanguageIcon />
-                <p className="text-md mb-4"> {"English"} </p>
+                <p className="mb-4 text-md"> {"English"} </p>
               </div>
 
               {role === "Admin" || role === "Instructor" ? (
@@ -245,7 +246,7 @@ const SingleCourse = () => {
                   Approve
                 </Button>
               ) : null}
-              <div className=" flex gap-2 mt-lg-3">
+              <div className="flex gap-2 mt-lg-3">
                 {role === "Instructor" && (
                   <Button
                     type="submit"
@@ -288,8 +289,8 @@ const SingleCourse = () => {
         viewport={{ once: true }}
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
-        <div className=" flex justify-between">
-          <h1 className="text-4xl font-bold text-start mb-8">
+        <div className="flex justify-between ">
+          <h1 className="mb-8 text-4xl font-bold text-start">
             {" "}
             Course Content{" "}
           </h1>
@@ -297,7 +298,7 @@ const SingleCourse = () => {
             <Button
               variant="default"
               color="primary"
-              className="-py-1 px-4"
+              className="px-4 -py-1"
               startIcon={<AddIcon />}
               href={`/add-lesson/${course._id}`}
             >
@@ -306,7 +307,7 @@ const SingleCourse = () => {
           )}
         </div>
 
-        <div className=" flex flex-col gap-3 px-4">
+        <div className="flex flex-col gap-3 px-4 ">
           {Array.isArray(course?.lessons) && course?.lessons.length > 0 ? (
             <>
               {course.lessons.map((lesson, index) => (
@@ -328,17 +329,17 @@ const SingleCourse = () => {
                     aria-controls="panel1-content"
                     id="panel1-header"
                   >
-                    <div className=" flex gap-10">
-                      <p className=" text-xl font-medium">
+                    <div className="flex gap-10 ">
+                      <p className="text-xl font-medium ">
                         Lesson {index + 1} : {lesson?.title}{" "}
                       </p>
-                      <p className=" text-lg text-gray-400 font-normal">
+                      <p className="text-lg font-normal text-gray-400 ">
                         {lesson?.duration}
                       </p>
                     </div>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <div className=" flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 ">
                       {lesson?.video && (
                         <iframe
                           src={lesson?.video}
@@ -347,7 +348,7 @@ const SingleCourse = () => {
                           height="300px"
                         ></iframe>
                       )}
-                      <p className=" text-lg font-normal">
+                      <p className="text-lg font-normal ">
                         {" "}
                         {lesson?.description}{" "}
                       </p>
@@ -381,7 +382,7 @@ const SingleCourse = () => {
               ))}
             </>
           ) : (
-            <h1 className="text-2xl font-semibold text-center mb-8">
+            <h1 className="mb-8 text-2xl font-semibold text-center">
               {" "}
               No Content Available Yet{" "}
             </h1>
@@ -399,12 +400,12 @@ const SingleCourse = () => {
           <h2 id="parent-modal-title">
             Are you sure you want to apporve this course
           </h2>
-          <div className=" flex justify-between">
+          <div className="flex justify-between ">
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleApprove}
             >
               Yes
@@ -412,7 +413,7 @@ const SingleCourse = () => {
             <Button
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleClose}
             >
               No
@@ -431,12 +432,12 @@ const SingleCourse = () => {
           <h2 id="parent-modal-title">
             Are you sure you want to Delete this course
           </h2>
-          <div className=" flex justify-between">
+          <div className="flex justify-between ">
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleDelete}
             >
               Yes
@@ -444,7 +445,7 @@ const SingleCourse = () => {
             <Button
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleCloseDelete}
             >
               No
@@ -464,12 +465,12 @@ const SingleCourse = () => {
           <h2 id="parent-modal-title">
             Are you sure you want to Delete this lesson
           </h2>
-          <div className=" flex justify-between">
+          <div className="flex justify-between ">
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleLessonDelete}
             >
               Yes
@@ -477,7 +478,7 @@ const SingleCourse = () => {
             <Button
               variant="contained"
               color="primary"
-              className=" mt-3"
+              className="mt-3 "
               onClick={handleCloseDeleteLesson}
             >
               No
@@ -485,6 +486,7 @@ const SingleCourse = () => {
           </div>
         </Box>
       </Modal>
+      <Toaster />
     </>
   );
 };

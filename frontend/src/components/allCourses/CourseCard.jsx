@@ -6,8 +6,8 @@ import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 const CourseCard = ({ course }) => {
   const role = localStorage.getItem("ds-role");
   return (
-    <Link to={`/course/${course._id}`}>
-      <div className="grid shadow-md hover:scale-105 md:grid-cols-4 grid-cols-1 gap-4 px-4 w-full py-3">
+    <Link to={`/course-page/${course._id}`}>
+      <div className="grid w-full grid-cols-1 gap-4 px-4 py-3 shadow-md hover:scale-105 md:grid-cols-4">
         <div className="col-span-1">
           <img
             src={
@@ -28,7 +28,7 @@ const CourseCard = ({ course }) => {
             </div>
             <div className="text-gray-500">{course?.description}</div>
             <div className="flex justify-between">
-              <div className="text-gray-500 flex items-center gap-2">
+              <div className="flex items-center gap-2 text-gray-500">
                 <AutoAwesomeMosaicIcon />
                 {course?.category} {""} Development
               </div>
@@ -40,7 +40,7 @@ const CourseCard = ({ course }) => {
               ) : null}
             </div>
 
-            <div className=" flex items-center gap-2">
+            <div className="flex items-center gap-2 ">
               <AccessTimeFilledIcon />
               {course?.duration}
             </div>
