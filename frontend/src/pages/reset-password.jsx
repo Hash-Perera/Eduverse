@@ -8,6 +8,7 @@ import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Logo1 from "../assets/images/Logo1.png";
 
 // FORMIK
 const INITIAL_FORM_STATE = {
@@ -34,6 +35,11 @@ const ResetPassword = (props) => {
       <PrimaryAppBar />
       <div style={{ paddingLeft: "30%", paddingRight: "30%" }}>
         <Grid container className="main-box">
+          <Grid item xs={12}>
+            <div className="flex justify-start">
+              <img src={Logo1} alt="Your Image" style={{ height: "6rem" }} />
+            </div>
+          </Grid>
           <Grid
             item
             xs={12}

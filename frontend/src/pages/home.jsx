@@ -154,16 +154,10 @@ const Home = () => {
                   Start your learning journey today!
                 </Typography>
                 <Stack direction="row" spacing={2} className="mt-5">
-                  <Button
-                    variant="outlined"
-                    sx={{ border: "1px solid #1d7a95" }}
-                  >
+                  <Button variant="outlined" color="secondary">
                     Learn More
                   </Button>
-                  <Button
-                    variant="contained"
-                    sx={{ backgroundColor: "#1d7a95" }}
-                  >
+                  <Button variant="contained" color="secondary">
                     Get Started
                   </Button>
                 </Stack>

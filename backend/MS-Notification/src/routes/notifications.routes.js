@@ -30,7 +30,7 @@ module.exports = (app, channel) => {
 
   app.post(`${baseurl}/send-email`, async (req, res) => {
     const { email, subject, message } = req.body;
-    return await service.SendEmail(email, subject, message);
+    return await service.SendEmail(email, subject, message, res);
   });
 
   app.post(`${baseurl}/send-otp`, async (req, res) => {

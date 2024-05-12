@@ -10,6 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
+import Logo1 from "../assets/images/Logo1.png";
 
 // FORMIK
 const INITIAL_FORM_STATE = {
@@ -46,7 +47,7 @@ const SignIn = () => {
         viewport={{ once: true }}
       >
         <div className="p-5" style={{ height: "100vh" }}>
-          <Grid container className="main-box">
+          <Grid container className="main-box" flexGrow={1}>
             <Grid
               item
               xs={6}
@@ -57,6 +58,9 @@ const SignIn = () => {
               </div>
             </Grid>
             <Grid item xs={6} className="p-4">
+              <div className="flex justify-start">
+                <img src={Logo1} alt="Your Image" style={{ height: "6rem" }} />
+              </div>
               <Typography variant="h4">Sign in</Typography>
               <Formik
                 initialValues={{ ...INITIAL_FORM_STATE }}
@@ -90,8 +94,8 @@ const SignIn = () => {
                   <div className="m-3"></div>
                   <InputField name="mobileNumber" label="Mobile number" />
                   <div className="m-3"></div>
-                  <Button type="submit" variant="contained" color="primary">
-                    Signin
+                  <Button type="submit" variant="contained" color="secondary">
+                    Sign in
                   </Button>
                 </Form>
               </Formik>

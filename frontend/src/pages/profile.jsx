@@ -7,6 +7,7 @@ import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 // YUP
 const FORM_VALIDATION = Yup.object().shape({
@@ -107,10 +108,13 @@ const Profile = () => {
                     )
                     .then((res) => {
                       console.log(res);
+                      toast.success("Profile Updated!");
                       getDetails();
                       setIsDisabled(true);
+                      Navigate("/dashboard");
                     })
                     .catch((err) => {
+                      toast.error("Unable to update!");
                       console.log(err);
                     });
                 }}
@@ -176,6 +180,7 @@ const Profile = () => {
           )}
         </Grid>
       </div>
+      <Toaster />
     </>
   );
 };
