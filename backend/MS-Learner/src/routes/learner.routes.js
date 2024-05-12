@@ -10,7 +10,11 @@ module.exports = (app, channel) => {
 
   app.post(`${baseurl}/enroll`, async (req, res) => {
     try {
-      const result = await service.enrollCourse(req.body, res);
+      const body = {
+        ...req.body,
+        student_id: req.user.id,
+      };
+      const result = await service.enrollCourse(body, res);
       res.status(200).send(result);
     } catch (error) {
       // Handle the error here
@@ -19,12 +23,18 @@ module.exports = (app, channel) => {
     }
   });
 
-  app.get(`${baseurl}/courses`, async (req, res) => {
+  app.get(`${baseurl}/courses/`, async (req, res) => {
     try {
       const header = req.headers["authorization"];
+      console.log(header);
       const token = header && header.split(" ")[1];
 
-      const result = await service.getEnrolledCourses(req.body, res, token);
+      const body = {
+        ...req.body,
+        student_id: req.user.id,
+      };
+      console.log(req.user.id);
+      const result = await service.getEnrolledCourses(body, token);
       res.status(200).send(result);
     } catch (error) {
       console.error(error);
@@ -33,11 +43,16 @@ module.exports = (app, channel) => {
   });
 
   //get enrolled course by id
-  app.get(`${baseurl}/course/`, async (req, res) => {
+  app.get(`${baseurl}/course/:courseId`, async (req, res) => {
     try {
       const header = req.headers["authorization"];
       const token = header && header.split(" ")[1];
-      const result = await service.getEnrolledCourseById(req.body, res, token);
+
+      const params = {
+        ...req.params,
+        student_id: req.user.id,
+      };
+      const result = await service.getEnrolledCourseById(params, res, token);
       res.status(200).send(result);
     } catch (error) {
       console.error(error);
@@ -46,15 +61,13 @@ module.exports = (app, channel) => {
   });
 
   //get course progress
-  app.get(`${baseurl}/progress/`, async (req, res) => {
-    const result = await service.getCourseProgress(req.body, res);
-    res.send(result);
-  });
-
-  //update course progress
-  app.put(`${baseurl}/course/progress`, async (req, res) => {
+  app.get(`${baseurl}/progress/:courseId`, async (req, res) => {
     try {
-      const result = await service.updateCourseProgress(req.body, res);
+      const params = {
+        ...req.params,
+        student_id: req.user.id,
+      };
+      const result = await service.getCourseProgress(params, res);
       res.send(result);
     } catch (error) {
       console.error(error);
@@ -62,9 +75,29 @@ module.exports = (app, channel) => {
     }
   });
 
-  app.delete(`${baseurl}/course/unenroll`, async (req, res) => {
+  //update course progress
+  app.put(`${baseurl}/course/progress/`, async (req, res) => {
     try {
-      const result = await service.deleteEnrolledCourse(req.body, res);
+      const body = {
+        ...req.body,
+        student_id: req.user.id,
+      };
+      const result = await service.updateCourseProgress(body, res);
+      res.send(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+
+  app.delete(`${baseurl}/course/unenroll/:courseId`, async (req, res) => {
+    try {
+      const params = {
+        ...req.params,
+        student_id: req.user.id,
+      };
+
+      const result = await service.deleteEnrolledCourse(params, res);
       res.status(200).send(result);
     } catch (error) {
       console.error(error);

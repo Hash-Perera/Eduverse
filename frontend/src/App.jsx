@@ -11,6 +11,10 @@ import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import ResetPassword from "./pages/reset-password";
 import ViewNotifications from "./pages/view-notifications";
+import AllCourses from "./pages/allcourses";
+import CourseDetails from "./pages/coursedetails";
+import MyCourses from "./pages/mycourses";
+import MyCourseDetails from "./pages/mycoursedetails";
 import Payment from "./pages/payment";
 import Successpage from "./pages/successpage";
 import AddCourse from "./pages/AddCourse";
@@ -18,6 +22,7 @@ import AddLesson from "./pages/AddLesson";
 import AllCourses from "./pages/AllCourses";
 import CoursePage from "./pages/CoursePage";
 import UpdateCourse from "./pages/UpdateCourse";
+import PaymentHistory from "./pages/PaymentHistory";
 
 function App() {
   return (
@@ -36,13 +41,19 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/view-notifications" element={<ViewNotifications />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/success" element={<Successpage />} />
-          <Route path="/add-course" element={<AddCourse />} />
           <Route path="/update-course/:id" element={<UpdateCourse />} />
           <Route path="/add-lesson/:id" element={<AddLesson />} />
           <Route path="/all-dashboard" element={<AllCourses />} />
-          <Route path="/course/:id" element={<CoursePage />} />
+          <Route path="/course-page/:id" element={<CoursePage />} />
+          <Route path="/all-courses" element={<AllCourses />} />
+          <Route path="/course/:id" element={<CourseDetails />} />
+          <Route path="/mycourses" element={<MyCourses />} />
+          <Route path="/mycourse/:id" element={<MyCourseDetails />} />
+          <Route path="/payment" element={<Payment/>}/>
+          <Route path="/success" element={<Successpage/>}/>
+          <Route path="/add-course" element={<AddCourse />} />
+          <Route path="/payment-history" element={<PaymentHistory/>}/>
+
         </Routes>
       </BrowserRouter>
     </>

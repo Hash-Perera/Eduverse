@@ -30,7 +30,7 @@ function connectionErrorHandler(err, req, res, next) {
 }
 
 //! Initialize proxy middleware for each microservice
-const proxyAuth = proxy("http://auth-service:8001");
+const proxyAuth = proxy("http://localhost:8001");
 const proxyCourse = proxy("http://localhost:8002");
 const proxyLearner = proxy("http://localhost:8003");
 const proxyNotification = proxy("http://localhost:8004");
