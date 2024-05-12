@@ -356,8 +356,7 @@ export default function PrimaryAppBar() {
           </Search> */}
 
           <img src={Logo1} alt="Your Image" style={{ height: "3.5rem" }} />
-          <Box sx={{ flexGrow: 1 }} />
-
+          <Box sx={{ flexGrow: 1 }}>
             {token && (
               <div className="flex justify-center gap-4 text-lg font-medium">
                 {role === "Learner" && (

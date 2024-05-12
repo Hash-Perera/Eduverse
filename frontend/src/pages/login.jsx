@@ -14,7 +14,6 @@ import Stack from "@mui/material/Stack";
 import toast, { Toaster } from "react-hot-toast";
 import Logo1 from "../assets/images/Logo1.png";
 
-
 const Login = () => {
   const Navigate = useNavigate();
 
@@ -65,11 +64,13 @@ const Login = () => {
                 <img className="hero-image" src={Girl1} alt="Your Image" />
               </div>
             </Grid>
-            <Grid item xs={6} className="p-4">
-              <div className="flex justify-start ml-10 ">
-                <img src={Logo1} alt="Your Image" style={{ height: "15rem" }} />
+            <Grid item xs={6} className="p-4 mt-5">
+              <div className="flex justify-start">
+                <img src={Logo1} alt="Your Image" style={{ height: "6rem" }} />
               </div>
-              <Typography variant="h4">Login</Typography>
+              <Typography variant="h4" className="mt-5">
+                Login
+              </Typography>
               <Formik
                 initialValues={{ ...INITIAL_FORM_STATE }}
                 validationSchema={FORM_VALIDATION}
@@ -105,8 +106,20 @@ const Login = () => {
                   <InputField name="password" label="Password" />
                   <div className="m-5"></div>
 
+                  <div className="flex gap-5 ">
+                    <Button
+                      onClick={() => Navigate("/signin")}
+                      variant="text"
+                      color="primary"
+                    >
+                      Don't have an account?
+                    </Button>
+                  </div>
 
                   <Stack spacing={2} direction="row">
+                    <Button type="submit" variant="contained" color="primary">
+                      Login
+                    </Button>
                     <Button
                       type="button"
                       variant="outlined"
@@ -117,24 +130,7 @@ const Login = () => {
                     >
                       {resetPassword ? "Cancel" : "Reset Password"}
                     </Button>
-                    <Button type="submit" variant="contained" color="primary">
-                      Login
-                    </Button>
                   </Stack>
-
-                  <div className="flex gap-5 ">
-                    <Button type="submit" variant="contained" color="primary">
-                      Login
-                    </Button>
-                    <Button
-                      onClick={() => Navigate("/signin")}
-                      variant="text"
-                      color="primary"
-                    >
-                      Don't have an account?
-                    </Button>
-                  </div>
-
                 </Form>
               </Formik>
 
