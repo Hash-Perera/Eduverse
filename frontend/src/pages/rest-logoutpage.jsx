@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
@@ -21,11 +21,12 @@ const FORM_VALIDATION = Yup.object().shape({
   otp: Yup.string().required("Required!"),
 });
 
-const ResetPassword = (props) => {
+const ResetPasswordLogout = (props) => {
   const Navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const { id } = useParams();
 
   return (
     <>
@@ -45,17 +46,11 @@ const ResetPassword = (props) => {
               initialValues={{ ...INITIAL_FORM_STATE }}
               validationSchema={FORM_VALIDATION}
               onSubmit={async (values) => {
-                console.log(values);
-                const newToken = localStorage.getItem("ds-token");
+                values.userId = id;
                 axios
                   .post(
-                    "http://localhost:8000/ms-auth/user/reset-password",
-                    values,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${newToken}`,
-                      },
-                    }
+                    "http://localhost:8000/ms-auth/user/reset-password/with-body",
+                    values
                   )
                   .then((res) => {
                     console.log(res.data);
@@ -103,4 +98,4 @@ const ResetPassword = (props) => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordLogout;

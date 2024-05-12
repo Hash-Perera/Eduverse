@@ -23,6 +23,7 @@ import AllCourses from "./pages/AllCourses";
 import CoursePage from "./pages/CoursePage";
 import UpdateCourse from "./pages/UpdateCourse";
 import PaymentHistory from "./pages/PaymentHistory";
+import ResetPasswordLogout from "./pages/rest-logoutpage";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="/success" element={<Successpage />} />
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
+          <Route path="/reset-password/:id" element={<ResetPasswordLogout />} />
         </Routes>
       </BrowserRouter>
     </>
