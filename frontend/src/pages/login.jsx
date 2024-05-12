@@ -9,12 +9,25 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import Stack from "@mui/material/Stack";
 import toast, { Toaster } from "react-hot-toast";
 import Logo1 from "../assets/images/Logo1.png";
+
 
 const Login = () => {
   const Navigate = useNavigate();
 
+  const [resetPassword, setResetPassword] = useState(false);
+  //!================================
+  const INITIAL_FORM_STATE_RESET = {
+    email: "",
+  };
+  const FORM_VALIDATION_RESET = Yup.object().shape({
+    email: Yup.string().required("Required!"),
+  });
+
+  //!===============================
   // FORMIK
   const INITIAL_FORM_STATE = {
     email: "",
@@ -81,7 +94,7 @@ const Login = () => {
                       }
                     })
                     .catch((err) => {
-                      console.log(err);
+                      console.log(err.response.data.message);
                     });
                 }}
               >
@@ -91,6 +104,24 @@ const Login = () => {
                   <div className="m-3"></div>
                   <InputField name="password" label="Password" />
                   <div className="m-5"></div>
+
+
+                  <Stack spacing={2} direction="row">
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => {
+                        setResetPassword(!resetPassword);
+                      }}
+                    >
+                      {resetPassword ? "Cancel" : "Reset Password"}
+                    </Button>
+                    <Button type="submit" variant="contained" color="primary">
+                      Login
+                    </Button>
+                  </Stack>
+
                   <div className="flex gap-5 ">
                     <Button type="submit" variant="contained" color="primary">
                       Login
@@ -103,8 +134,47 @@ const Login = () => {
                       Don't have an account?
                     </Button>
                   </div>
+
                 </Form>
               </Formik>
+
+              {resetPassword && (
+                <Formik
+                  initialValues={{ ...INITIAL_FORM_STATE_RESET }}
+                  validationSchema={FORM_VALIDATION_RESET}
+                  onSubmit={async (values) => {
+                    console.log(values);
+                    axios
+                      .post(
+                        "http://localhost:8000/ms-auth/user/send-otp-logout",
+                        values
+                      )
+                      .then((res) => {
+                        console.log(res.data);
+                        console.log(res.data.success);
+                        console.log(res.data.message);
+                        console.log(res.data.data);
+                        if (res.data.success) {
+                          console.log("Navigating to reset password");
+                          Navigate(`/reset-password/${res.data.data}`);
+                        }
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        console.log(err.response.data.message);
+                      });
+                  }}
+                >
+                  <Form style={{ width: "70%" }}>
+                    <div className="m-5"></div>
+                    <InputField name="email" label="Email" />
+                    <div className="m-5"></div>
+                    <Button type="submit" variant="contained" color="primary">
+                      Send OTP
+                    </Button>
+                  </Form>
+                </Formik>
+              )}
             </Grid>
           </Grid>
         </div>

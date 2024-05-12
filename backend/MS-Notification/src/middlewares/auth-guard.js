@@ -10,6 +10,16 @@ const AuthMiddleware = (req, res, next) => {
   const header = req.headers["authorization"];
   const token = header && header.split(" ")[1];
 
+  if (
+    req.path === "/notification/send-otp-logout" ||
+    req.path === "/reset-password/with-body" ||
+    req.path === "/notification/create-dashboard-logout"
+  ) {
+    return next();
+  }
+  if (req.path === "/user/validate") {
+  }
+
   //! Checking token
   if (!token) {
     return res.status(401).json({ success: false, message: "Unauthorized" });

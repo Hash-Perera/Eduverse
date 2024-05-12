@@ -6,7 +6,12 @@ const AuthGuard = (req, res, next) => {
   const token = header && header.split(" ")[1];
 
   //! Allow login endpoint without token
-  if (req.path === "/user/login" || req.path === "/user/register") {
+  if (
+    req.path === "/user/login" ||
+    req.path === "/user/register" ||
+    req.path === "/user/send-otp-logout" ||
+    req.path === "/user/reset-password/with-body"
+  ) {
     return next();
   }
   if (req.path === "/user/validate") {

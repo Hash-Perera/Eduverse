@@ -206,8 +206,8 @@ const Home = () => {
               <Typography variant="h4">Most popular courses</Typography>
             </Grid>
             {courseList.map((course, index) => (
-              <Grid item xs={3} sm={3} md={3}>
-                <Card sx={{ width: 260, height: 300 }}>
+              <Grid item xs={6} sm={4} md={4} lg={3}>
+                <Card sx={{ height: 300 }}>
                   <CardMedia sx={{ height: 140 }} image={course.imageUrl} />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
@@ -7,8 +7,6 @@ import { Grid, Typography } from "@mui/material";
 import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-
 // FORMIK
 const INITIAL_FORM_STATE = {
   newPassword: "",
@@ -23,11 +21,12 @@ const FORM_VALIDATION = Yup.object().shape({
   otp: Yup.string().required("Required!"),
 });
 
-const ResetPassword = (props) => {
+const ResetPasswordLogout = (props) => {
   const Navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const { id } = useParams();
 
   return (
     <>
@@ -37,7 +36,7 @@ const ResetPassword = (props) => {
           <Grid
             item
             xs={12}
-            className="p-4 d-flex align-items-center justify-content-center"
+            className="d-flex align-items-center justify-content-center p-4"
           >
             <h2>Reset Password</h2>
           </Grid>
@@ -47,27 +46,19 @@ const ResetPassword = (props) => {
               initialValues={{ ...INITIAL_FORM_STATE }}
               validationSchema={FORM_VALIDATION}
               onSubmit={async (values) => {
-                console.log(values);
-                const newToken = localStorage.getItem("ds-token");
+                values.userId = id;
                 axios
                   .post(
-                    "http://localhost:8000/ms-auth/user/reset-password",
-                    values,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${newToken}`,
-                      },
-                    }
+                    "http://localhost:8000/ms-auth/user/reset-password/with-body",
+                    values
                   )
                   .then((res) => {
                     console.log(res.data);
                     if (res.data.success) {
-                      toast.success("Password Reset Successfully!");
                       localStorage.removeItem("ds-token");
                       localStorage.removeItem("ds-role");
                       Navigate("/login");
                     } else {
-                      toast.error(res.data.message);
                       setError(res.data.message);
                     }
                   })
@@ -103,9 +94,8 @@ const ResetPassword = (props) => {
           </Grid>
         </Grid>
       </div>
-      <Toaster />
     </>
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordLogout;
