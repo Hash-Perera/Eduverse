@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
+import toast, { Toaster } from "react-hot-toast";
+import Logo1 from "../assets/images/Logo1.png";
+
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -56,13 +59,16 @@ const Login = () => {
             <Grid
               item
               xs={6}
-              className="d-flex align-items-center justify-content-center p-4"
+              className="p-4 d-flex align-items-center justify-content-center"
             >
               <div className="hero-image-container">
                 <img className="hero-image" src={Girl1} alt="Your Image" />
               </div>
             </Grid>
             <Grid item xs={6} className="p-4">
+              <div className="flex justify-start ml-10 ">
+                <img src={Logo1} alt="Your Image" style={{ height: "15rem" }} />
+              </div>
               <Typography variant="h4">Login</Typography>
               <Formik
                 initialValues={{ ...INITIAL_FORM_STATE }}
@@ -77,13 +83,14 @@ const Login = () => {
                       localStorage.setItem("ds-role", res.data.data.role);
                       console.log(res.data);
                       console.log(res.data.message);
+                      toast.success("Login Successful!");
                       if (
                         res.data.data.role === "Admin" ||
                         res.data.data.role === "Instructor"
                       ) {
                         Navigate("/all-dashboard");
                       } else {
-                        Navigate("/dashboard");
+                        Navigate("/all-courses");
                       }
                     })
                     .catch((err) => {
@@ -97,6 +104,7 @@ const Login = () => {
                   <div className="m-3"></div>
                   <InputField name="password" label="Password" />
                   <div className="m-5"></div>
+
 
                   <Stack spacing={2} direction="row">
                     <Button
@@ -113,6 +121,20 @@ const Login = () => {
                       Login
                     </Button>
                   </Stack>
+
+                  <div className="flex gap-5 ">
+                    <Button type="submit" variant="contained" color="primary">
+                      Login
+                    </Button>
+                    <Button
+                      onClick={() => Navigate("/signin")}
+                      variant="text"
+                      color="primary"
+                    >
+                      Don't have an account?
+                    </Button>
+                  </div>
+
                 </Form>
               </Formik>
 
@@ -157,6 +179,7 @@ const Login = () => {
           </Grid>
         </div>
       </motion.div>
+      <Toaster />
     </>
   );
 };

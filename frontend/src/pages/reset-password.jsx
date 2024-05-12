@@ -7,6 +7,8 @@ import { Grid, Typography } from "@mui/material";
 import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+
 // FORMIK
 const INITIAL_FORM_STATE = {
   newPassword: "",
@@ -35,7 +37,7 @@ const ResetPassword = (props) => {
           <Grid
             item
             xs={12}
-            className="d-flex align-items-center justify-content-center p-4"
+            className="p-4 d-flex align-items-center justify-content-center"
           >
             <h2>Reset Password</h2>
           </Grid>
@@ -60,10 +62,12 @@ const ResetPassword = (props) => {
                   .then((res) => {
                     console.log(res.data);
                     if (res.data.success) {
+                      toast.success("Password Reset Successfully!");
                       localStorage.removeItem("ds-token");
                       localStorage.removeItem("ds-role");
                       Navigate("/login");
                     } else {
+                      toast.error(res.data.message);
                       setError(res.data.message);
                     }
                   })
@@ -99,6 +103,7 @@ const ResetPassword = (props) => {
           </Grid>
         </Grid>
       </div>
+      <Toaster />
     </>
   );
 };

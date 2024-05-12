@@ -24,6 +24,7 @@ import CoursePage from "./pages/CoursePage";
 import UpdateCourse from "./pages/UpdateCourse";
 import PaymentHistory from "./pages/PaymentHistory";
 import ResetPasswordLogout from "./pages/rest-logoutpage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="/reset-password/:id" element={<ResetPasswordLogout />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </>
   );
 }

@@ -12,7 +12,7 @@ import FormLabel from "@mui/material/FormLabel";
 const AllCoursesAdmin = () => {
   const [courses, setCourses] = useState([]);
   const role = localStorage.getItem("ds-role");
-  const [status, setStatus] = useState("pending");
+  const [status, setStatus] = useState(role === "Admin" ? "pending" : "active");
   const [category, setCategory] = useState("all");
 
   // Function to fetch courses based on category and status
@@ -68,7 +68,7 @@ const AllCoursesAdmin = () => {
         viewport={{ once: true }}
         className="max-w-[1440px] mx-auto px-4"
       >
-        <h1 className="text-4xl font-bold text-center mb-12">
+        <h1 className="mb-12 text-4xl font-bold text-center">
           {role === "Admin" ? "Course Requests" : "My Courses"}
         </h1>
       </motion.div>
@@ -88,8 +88,8 @@ const AllCoursesAdmin = () => {
       >
         {role === "Instructor" && (
           <div className="w-[300px] h-[380px] px-4 py-4 shadow-md">
-            <h1 className="text-2xl text-center font-bold">Filters</h1>
-            <div className="flex flex-col  ">
+            <h1 className="text-2xl font-bold text-center">Filters</h1>
+            <div className="flex flex-col ">
               <FormControl>
                 <FormLabel>Category</FormLabel>
                 <RadioGroup
@@ -123,14 +123,14 @@ const AllCoursesAdmin = () => {
                   onChange={handleRadioChange}
                 >
                   <FormControlLabel
-                    value="pending"
-                    control={<Radio />}
-                    label="Pending"
-                  />
-                  <FormControlLabel
                     value="active"
                     control={<Radio />}
                     label="Active"
+                  />
+                  <FormControlLabel
+                    value="pending"
+                    control={<Radio />}
+                    label="Pending"
                   />
 
                   {/* Add more status options as needed */}

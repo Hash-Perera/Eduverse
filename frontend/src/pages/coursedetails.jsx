@@ -7,13 +7,19 @@ import Accordion from "react-bootstrap/Accordion";
 
 const CourseDetails = () => {
   const { id } = useParams();
+  const token = localStorage.getItem("ds-token");
   console.log(id);
   const [course, setCourse] = useState({});
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/ms-course/course/get-by-id/${id}`
+          `http://localhost:8000/ms-course/course/get-by-id/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         // Fetch course details by id
         setCourse(response.data);
@@ -44,7 +50,7 @@ const CourseDetails = () => {
               className="w-full h-[175px] object-cover rounded-lg"
             />
           </div>
-          <div className="course-details-info flex">
+          <div className="flex course-details-info">
             <h2 className="course-name" style={{ color: "black" }}>
               <br />
               {course.name}
@@ -72,7 +78,7 @@ const CourseDetails = () => {
           {course.lessons &&
             course.lessons.map((lesson, index) => (
               <Accordion.Item eventKey={index.toString()} key={index}>
-                <Accordion.Header className="header border-none">
+                <Accordion.Header className="border-none header">
                   {lesson.title}
                 </Accordion.Header>
                 <Accordion.Body className="accordion-body">
