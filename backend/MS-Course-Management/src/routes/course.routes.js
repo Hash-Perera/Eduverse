@@ -12,7 +12,7 @@ module.exports = (app, channel) => {
   //TODO: complete this functions
   app.put(`${baseUrl}/status-update`, async (req, res) => {
     try {
-      const result = await service.UpdateCourseStatus(req.body, res);
+      const result = await service.UpdateCourseStatus(req, res);
       res.send(result);
     } catch (err) {
       console.log(err);

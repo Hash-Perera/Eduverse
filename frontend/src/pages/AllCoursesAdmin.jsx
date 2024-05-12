@@ -53,7 +53,7 @@ const AllCoursesAdmin = () => {
 
   return (
     <>
-      <PrimaryAppBar />
+      {/* <PrimaryAppBar /> */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{

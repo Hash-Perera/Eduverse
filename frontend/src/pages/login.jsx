@@ -89,13 +89,14 @@ const Login = () => {
                         res.data.data.role === "Admin" ||
                         res.data.data.role === "Instructor"
                       ) {
-                        Navigate("/all-dashboard");
+                        Navigate("/dashboard");
                       } else {
-                        Navigate("/all-courses");
+                        Navigate("/dashboard");
                       }
                     })
                     .catch((err) => {
                       console.log(err.response.data.message);
+                      toast.error(err.response.data.message);
                     });
                 }}
               >
@@ -149,6 +150,7 @@ const Login = () => {
                         console.log(res.data);
                         console.log(res.data.success);
                         console.log(res.data.message);
+                        toast.success(res.data.message);
                         console.log(res.data.data);
                         if (res.data.success) {
                           console.log("Navigating to reset password");
@@ -158,6 +160,7 @@ const Login = () => {
                       .catch((err) => {
                         console.log(err);
                         console.log(err.response.data.message);
+                        toast.error(err.response.data.message);
                       });
                   }}
                 >

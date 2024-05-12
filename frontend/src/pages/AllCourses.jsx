@@ -29,8 +29,6 @@ const AllCourses = () => {
 
   return (
     <>
-      <PrimaryAppBar />
-
       <div
         className=""
         style={{

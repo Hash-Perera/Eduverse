@@ -7,6 +7,9 @@ import { Grid, Typography } from "@mui/material";
 import InputField from "../components/form-ui/inputfield";
 import { Button } from "@mui/material";
 import axios from "axios";
+import Logo1 from "../assets/images/Logo1.png";
+import toast, { Toaster } from "react-hot-toast";
+
 // FORMIK
 const INITIAL_FORM_STATE = {
   newPassword: "",
@@ -33,15 +36,20 @@ const ResetPasswordLogout = (props) => {
       <PrimaryAppBar />
       <div style={{ paddingLeft: "30%", paddingRight: "30%" }}>
         <Grid container className="main-box">
+          <Grid item xs={12}>
+            <div className="flex justify-content-center mt-3">
+              <img src={Logo1} alt="Your Image" style={{ height: "6rem" }} />
+            </div>
+          </Grid>
           <Grid
             item
             xs={12}
-            className="d-flex align-items-center justify-content-center p-4"
+            className="d-flex align-items-center justify-content-center  mt-3"
           >
-            <h2>Reset Password</h2>
+            <Typography variant="h6">Reset Password</Typography>
           </Grid>
 
-          <Grid item xs={12} className="p-4">
+          <Grid item xs={12} className="p-5">
             <Formik
               initialValues={{ ...INITIAL_FORM_STATE }}
               validationSchema={FORM_VALIDATION}
@@ -55,10 +63,12 @@ const ResetPasswordLogout = (props) => {
                   .then((res) => {
                     console.log(res.data);
                     if (res.data.success) {
+                      toast.success(res.data.message);
                       localStorage.removeItem("ds-token");
                       localStorage.removeItem("ds-role");
                       Navigate("/login");
                     } else {
+                      toast.error(res.data.message);
                       setError(res.data.message);
                     }
                   })
@@ -94,6 +104,7 @@ const ResetPasswordLogout = (props) => {
           </Grid>
         </Grid>
       </div>
+      <Toaster />
     </>
   );
 };

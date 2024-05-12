@@ -1,4 +1,5 @@
 const Course = require("../schema/course.schema");
+const axios = require("axios");
 
 class CourseService {
   //? This is remote service function
@@ -90,7 +91,8 @@ class CourseService {
   }
 
   //update course status
-  async UpdateCourseStatus(payload, res) {
+  async UpdateCourseStatus(req, res) {
+    const payload = req.body;
     try {
       const course = await Course.findOneAndUpdate(
         { _id: payload.id },
@@ -104,6 +106,30 @@ class CourseService {
           message: "Course not found",
         });
       }
+
+      const notifiObject = {
+        title: "Approved",
+        message: `Your ${course.name} has been approved`,
+        data: {},
+        viewed: false,
+        userId: course.instructor,
+      };
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/ms-notification/notification/create-dashboard",
+          notifiObject,
+          {
+            headers: {
+              Authorization: req.headers.authorization,
+            },
+          }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error creating notification:", error);
+      }
+
       res.status(200).send({
         success: true,
         data: course,
