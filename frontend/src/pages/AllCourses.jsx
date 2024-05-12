@@ -1,146 +1,117 @@
 import React, { useEffect, useState } from "react";
+
 import PrimaryAppBar from "../components/header";
-import { motion } from "framer-motion";
+import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import Main from "../components/allCourses/Main";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
-  const role = localStorage.getItem("ds-role");
-  const [status, setStatus] = useState("pending");
-  const [category, setCategory] = useState("all");
-
-  // Function to fetch courses based on category and status
-  const fetchCourses = async () => {
-    const newToken = localStorage.getItem("ds-token");
-    try {
-      const uri =
-        role === "Admin"
-          ? `http://localhost:8000/ms-course/course/filters`
-          : `http://localhost:8000/ms-course/course/instructor-courses`;
-      const response = await axios.get(`${uri}`, {
-        headers: {
-          Authorization: `Bearer ${newToken}`,
-        },
-        params: {
-          category,
-          status,
-        },
-      });
-      setCourses(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
-    fetchCourses();
-  }, [category, status]);
-
-  const handleRadioChange = (event) => {
-    // Update category or status based on radio button selection
-    if (event.target.name === "category") {
-      setCategory(event.target.value);
-    } else if (event.target.name === "status") {
-      setStatus(event.target.value);
-    }
-  };
+    axios
+      .get(
+        "http://localhost:8000/ms-course/course/filters?category=all&status=active",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("ds-token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setCourses(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
       <PrimaryAppBar />
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{
-          opacity: 1,
-          transition: {
-            duration: 2,
-            type: "tween",
-            ease: "backOut",
-          },
-          y: 0,
-        }}
-        viewport={{ once: true }}
-        className="max-w-[1440px] mx-auto px-4"
-      >
-        <h1 className="text-4xl font-bold text-center mb-12">
-          {role === "Admin" ? "Course Requests" : "My Courses"}
-        </h1>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{
-          opacity: 1,
-          transition: {
-            duration: 2,
-            type: "tween",
-            ease: "backOut",
-          },
-          y: 0,
-        }}
-        viewport={{ once: true }}
-        className="max-w-[1440px] flex gap-2 mx-auto px-4"
-      >
-        {role === "Instructor" && (
-          <div className="w-[300px] h-[380px] px-4 py-4 shadow-md">
-            <h1 className="text-2xl text-center font-bold">Filters</h1>
-            <div className="flex flex-col  ">
-              <FormControl>
-                <FormLabel>Category</FormLabel>
-                <RadioGroup
-                  name="category"
-                  value={category}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel
-                    value="all"
-                    control={<Radio />}
-                    label="All"
-                  />
-                  <FormControlLabel
-                    value="web"
-                    control={<Radio />}
-                    label="Web Development"
-                  />
-                  <FormControlLabel
-                    value="mobile"
-                    control={<Radio />}
-                    label="Mobile Development"
-                  />
-                  {/* Add more category options as needed */}
-                </RadioGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Status</FormLabel>
-                <RadioGroup
-                  name="status"
-                  value={status}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel
-                    value="pending"
-                    control={<Radio />}
-                    label="Pending"
-                  />
-                  <FormControlLabel
-                    value="active"
-                    control={<Radio />}
-                    label="Active"
-                  />
 
-                  {/* Add more status options as needed */}
-                </RadioGroup>
-              </FormControl>
-            </div>
-          </div>
-        )}
-        <Main courses={courses} />
-      </motion.div>
+      <div
+        className=""
+        style={{
+          padding: "40px",
+          background: "#f8f8f8",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>All Courses</h1>
+        <Grid container spacing={2} padding={0}>
+          {courses.map((course) => (
+            <Grid item xs={12} sm={12} md={3} lg={3} key={course._id}>
+              <div
+                className="card text-bg-light p-3"
+                style={{
+                  background: "#ececec",
+                  color: "black",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+                  transition: "5s",
+                  padding: "10px",
+                  margin: "10px",
+                  textAlign: "center}} ",
+                  height: "100%",
+                }}
+              >
+                <img
+                  src={
+                    course.image
+                      ? `/images/${course.image}`
+                      : "https://via.placeholder.com/150"
+                  }
+                  alt="Course"
+                  className="card-img-top w-full h-[175px] object-cover rounded-lg"
+                  /* style={{
+                    objectFit: "fill",
+                    height: "200px",
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    backgroundColor: "#263032",
+                  }} */
+                />
+                <div
+                  className="card-body"
+                  style={{
+                    flex: "1",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div
+                    style={{
+                      justifyContent: "space-between",
+                      /*   alignItems: "center", */
+                    }}
+                  >
+                    <h4 className="card-text">{course.name}</h4>
+                    <p className="card-text">{course.duration}</p>
+                  </div>
+                  <p className="card-text" style={{ letterSpacing: "1px" }}>
+                    <b>Category: {course.category}</b>
+                  </p>
+                </div>
+                <Link
+                  to={`/course/${course._id}`}
+                  className="btn btn-danger "
+                  style={{
+                    color: "white",
+                    padding: "10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  View Course
+                </Link>
+              </div>
+              <br />
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     </>
   );
 };

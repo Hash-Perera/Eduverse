@@ -11,7 +11,7 @@ import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import ResetPassword from "./pages/reset-password";
 import ViewNotifications from "./pages/view-notifications";
-import AllCourses from "./pages/allcourses";
+import AllCoursesAdmin from "./pages/AllCoursesAdmin";
 import CourseDetails from "./pages/coursedetails";
 import MyCourses from "./pages/mycourses";
 import MyCourseDetails from "./pages/mycoursedetails";
@@ -43,17 +43,16 @@ function App() {
           <Route path="/view-notifications" element={<ViewNotifications />} />
           <Route path="/update-course/:id" element={<UpdateCourse />} />
           <Route path="/add-lesson/:id" element={<AddLesson />} />
-          <Route path="/all-dashboard" element={<AllCourses />} />
+          <Route path="/all-dashboard" element={<AllCoursesAdmin />} />
           <Route path="/course-page/:id" element={<CoursePage />} />
           <Route path="/all-courses" element={<AllCourses />} />
           <Route path="/course/:id" element={<CourseDetails />} />
           <Route path="/mycourses" element={<MyCourses />} />
           <Route path="/mycourse/:id" element={<MyCourseDetails />} />
-          <Route path="/payment" element={<Payment/>}/>
-          <Route path="/success" element={<Successpage/>}/>
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/success" element={<Successpage />} />
           <Route path="/add-course" element={<AddCourse />} />
-          <Route path="/payment-history" element={<PaymentHistory/>}/>
-
+          <Route path="/payment-history" element={<PaymentHistory />} />
         </Routes>
       </BrowserRouter>
     </>
