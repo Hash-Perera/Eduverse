@@ -11,6 +11,10 @@ import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import ResetPassword from "./pages/reset-password";
 import ViewNotifications from "./pages/view-notifications";
+import AllCourses from "./pages/allcourses";
+import CourseDetails from "./pages/coursedetails";
+import MyCourses from "./pages/mycourses";
+import MyCourseDetails from "./pages/mycoursedetails";
 
 function App() {
   return (
@@ -29,6 +33,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/view-notifications" element={<ViewNotifications />} />
+          <Route path="/all-courses" element={<AllCourses />} />
+          <Route path="/course/:id" element={<CourseDetails />} />
+          <Route path="/mycourses" element={<MyCourses />} />
+          <Route path="/mycourse/:id" element={<MyCourseDetails />} />
         </Routes>
       </BrowserRouter>
     </>
