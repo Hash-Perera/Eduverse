@@ -53,7 +53,6 @@ const AllCoursesAdmin = () => {
 
   return (
     <>
-      {/* <PrimaryAppBar /> */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{
@@ -84,7 +83,7 @@ const AllCoursesAdmin = () => {
           y: 0,
         }}
         viewport={{ once: true }}
-        className="max-w-[1440px] flex gap-2 mx-auto px-4"
+        className="max-w-[1440px] flex flex-col md:flex-row gap-2 mx-auto px-4"
       >
         {role === "Instructor" && (
           <div className="w-[300px] h-[380px] px-4 py-4 shadow-md">

@@ -7,6 +7,7 @@ const Dashboard = () => {
   return (
     <>
       <PrimaryAppBar />
+
       {(role === "Admin" || role === "Instructor") && <AllCoursesAdmin />}
       {role === "Learner" && <AllCourses />}
     </>

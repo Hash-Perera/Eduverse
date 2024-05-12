@@ -181,7 +181,7 @@ const SingleCourse = () => {
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/all-dashboard">
+          <Link underline="hover" color="inherit" href="/dashboard">
             All Courses
           </Link>
           <Link underline="hover" color="inherit" href={`/courses/${id}`}>

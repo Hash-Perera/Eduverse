@@ -97,7 +97,7 @@ const AddLesson = () => {
       >
         <div role="presentation" className="px-5 ">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/all-dashboard">
+            <Link underline="hover" color="inherit" href="/dashboard">
               My Courses
             </Link>
 
