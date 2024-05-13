@@ -86,4 +86,14 @@ module.exports = (app, channel) => {
       console.log(err);
     }
   });
+
+  //get course progress
+  app.get(`${baseUrl}/progress/:id`, async (req, res) => {
+    try {
+      const result = await service.GetCourseProgress(req);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 };

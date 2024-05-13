@@ -245,6 +245,24 @@ class CourseService {
     }
   }
 
+  async GetCourseProgress(req, res) {
+    try {
+      const progressData = await axios.get(
+        `http://localhost:8000/ms-learner/learner/course/progress/${req.params.id}`,
+        {
+          headers: {
+            Authorization: req.headers.authorization,
+          },
+        }
+      );
+
+      const { data } = progressData;
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   //! =======  DO not Delete this function =========
   async R_getCourses() {
     console.log("Get courses list");
