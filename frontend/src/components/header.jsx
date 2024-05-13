@@ -404,6 +404,17 @@ export default function PrimaryAppBar() {
                     Add Course
                   </button>
                 )}
+                {role === "Admin" && (
+                  <button
+                    onClick={() => {
+                      Navigate("/payment-history");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Payment History
+                  </button>
+                )}
               </div>
             )}
           </Box>
