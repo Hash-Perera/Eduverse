@@ -1,5 +1,5 @@
 const LessonService = require("../services/lesson.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -16,12 +16,12 @@ const upload = multer({
   limits: { fileSize: 1024 * 1024 * 50 }, // Example: limit to 50 MB
 });
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new LessonService();
   const baseUrl = "/lesson";
 
-  //To listen
-  SubscribeMessages(channel, service);
+  /*   //To listen
+  SubscribeMessages(channel, service); */
 
   //Create lesson
   app.post(`${baseUrl}/create`, upload.single("notes"), async (req, res) => {

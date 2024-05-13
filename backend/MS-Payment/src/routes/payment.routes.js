@@ -1,12 +1,12 @@
 const PaymentService = require("../services/payment.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new PaymentService();
   const baseUrl = "/payment";
-
+  /* 
   //To listen for the que
-  SubscribeMessages(channel, service);
+  SubscribeMessages(channel, service); */
 
   app.post(`${baseUrl}/create-session/:id`, async (req, res) => {
     const result = await service.CreateCheckoutSession(req, res);

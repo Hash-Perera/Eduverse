@@ -1,23 +1,23 @@
 const express = require("express");
 const expressApp = require("./app");
-const dotenv =  require("dotenv");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const { CreateChannel } = require("./utils/index.utils");
+/* const { CreateChannel } = require("./utils/index.utils"); */
 
 // function for Starting the server
 
-const StartServer = async() => {
-    //loading enviroment variables
+const StartServer = async () => {
+  //loading enviroment variables
 
-    dotenv.config();
-    const PORT = process.env.PORT || 8005;
-    const URL = process.env.MONGODB_URI;
+  dotenv.config();
+  const PORT = process.env.PORT || 8005;
+  const URL = process.env.MONGODB_URI;
 
-    const app = express();
+  const app = express();
 
-    //Connecting the mongoDB
+  //Connecting the mongoDB
 
-    mongoose
+  mongoose
     .connect(URL)
     .then(() => {
       console.log("Connected to MongoDB");
@@ -26,16 +26,14 @@ const StartServer = async() => {
       console.log(err);
     });
 
+  /*   // Create channel
+    const channel = await CreateChannel(); */
 
-    // Create channel
-    const channel = await CreateChannel();
-
-    await expressApp(app, channel);
-    //-//
-    app.listen(PORT, () => {
-        console.log(`Payment Management Microservice running on ${PORT}`);
-    });
-
+  await expressApp(app);
+  //-//
+  app.listen(PORT, () => {
+    console.log(`Payment Management Microservice running on ${PORT}`);
+  });
 };
 
 StartServer();

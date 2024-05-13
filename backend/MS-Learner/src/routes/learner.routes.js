@@ -1,12 +1,12 @@
 const LearnerService = require("../services/learner.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new LearnerService();
   const baseurl = "/learner";
-
+  /* 
   //To listen
-  SubscribeMessages(channel, service);
+  SubscribeMessages(channel, service); */
 
   app.post(`${baseurl}/enroll`, async (req, res) => {
     try {

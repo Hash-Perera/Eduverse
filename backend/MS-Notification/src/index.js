@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const http = require("http");
 const { Server } = require("socket.io");
-const { CreateChannel } = require("./utils/index.utils");
+/* const { CreateChannel } = require("./utils/index.utils"); */
 
 const StartServer = async () => {
   //! Load environment variables
@@ -24,10 +24,10 @@ const StartServer = async () => {
       console.log(err);
     });
 
-  // //! Create channel
-  const channel = await CreateChannel();
+  /*  // //! Create channel
+  const channel = await CreateChannel(); */
 
-  await expressApp(app, channel);
+  await expressApp(app);
 
   //! Socket IO Configurations
   const server = http.createServer(app);
