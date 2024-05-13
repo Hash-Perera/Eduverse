@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import "../css/payment.css";
 import PrimaryAppBar from "../components/header";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -16,20 +18,24 @@ const stripePromise = loadStripe(
 );
 
 export default function payment() {
-  const courseData = {
+  const { id } = useParams();
+  const token = localStorage.getItem("ds-token");
+
+  /* const courseData = {
     _id: "12346637bda70e17790dc64c9f1d",
     name: "Data Structures",
     description: "Learn Data Structures from scratch",
     price: 2000,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNP5PYOUreMixh2t437ZZZ25RhKPjJ4egyKQ&s",
-  };
+  }; */
+
   const fetchClientSecret = useCallback(async () => {
     const newToken = await localStorage.getItem("ds-token");
     try {
       const response = await axios.post(
-        "http://localhost:8000/ms-payment/payment/create-session",
-        courseData,
+        `http://localhost:8000/ms-payment/payment/create-session/${id}`,
+        null,
         { headers: { Authorization: `Bearer ${newToken}` } }
       );
       if (response.status === 200) {

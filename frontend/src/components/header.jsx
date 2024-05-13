@@ -97,7 +97,7 @@ export default function PrimaryAppBar() {
   const handleLogOut = () => {
     localStorage.removeItem("ds-token");
     localStorage.removeItem("ds-role");
-    Navigate("/");
+    window.location.href = "/";
   };
 
   //! Profile Click
@@ -363,7 +363,7 @@ export default function PrimaryAppBar() {
                   <>
                     <button
                       onClick={() => {
-                        Navigate("/all-courses");
+                        Navigate("/dashboard");
                       }}
                       className=" hover:font-bold"
                     >
@@ -385,7 +385,7 @@ export default function PrimaryAppBar() {
                   (role === "Instructor" && (
                     <button
                       onClick={() => {
-                        Navigate("/all-dashboard");
+                        Navigate("/dashboard");
                       }}
                       className=" hover:font-bold"
                     >
@@ -402,6 +402,17 @@ export default function PrimaryAppBar() {
                   >
                     {" "}
                     Add Course
+                  </button>
+                )}
+                {role === "Admin" && (
+                  <button
+                    onClick={() => {
+                      Navigate("/payment-history");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Payment History
                   </button>
                 )}
               </div>

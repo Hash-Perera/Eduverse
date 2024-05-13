@@ -1,12 +1,12 @@
 const LearnerService = require("../services/learner.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new LearnerService();
   const baseurl = "/learner";
-
+  /* 
   //To listen
-  SubscribeMessages(channel, service);
+  SubscribeMessages(channel, service); */
 
   app.post(`${baseurl}/enroll`, async (req, res) => {
     try {
@@ -99,6 +99,17 @@ module.exports = (app, channel) => {
 
       const result = await service.deleteEnrolledCourse(params, res);
       res.status(200).send(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+
+  //monitor the progress of the course
+  app.get(`${baseurl}/course/progress/:id`, async (req, res) => {
+    try {
+      const result = await service.monitorCourseProgress(req.params, res);
+      res.send(result);
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");

@@ -96,7 +96,6 @@ class LearnerService {
         );
 
         return courseDetailsResponse.data;
-
       });
 
       const courseDetails = await Promise.all(courseDetailsPromises);
@@ -269,6 +268,41 @@ class LearnerService {
       return {
         message: "Error unenrolling course",
       };
+    }
+  }
+
+  // Monitor course progress for specific course IDs
+  async monitorCourseProgress(payload) {
+    try {
+      const courseIds = Array.isArray(payload.id) ? payload.id : [payload.id]; // Ensure courseIds is an array
+
+      const learners = await Learner.find(); // Retrieve all learners
+
+      const courseProgressPromises = learners.map(async (learner) => {
+        const learnerCourseProgress = learner.enrolledCourses.filter(
+          (course) => courseIds.includes(course.courseId) && course.progress > 0 // Filter by course ID and progress > 0
+        );
+
+        if (learnerCourseProgress.length > 0) {
+          return {
+            student_id: learner.student_id,
+            courseProgress: learnerCourseProgress,
+          };
+        }
+        return null;
+      });
+
+      const courseProgress = (await Promise.all(courseProgressPromises)).filter(
+        (progress) => progress !== null
+      ); // Filter out null values
+
+      return {
+        data: courseProgress,
+        message: "Course progress fetched successfully",
+      };
+    } catch (error) {
+      console.error("Error fetching course progress:", error);
+      throw new Error("Failed to fetch course progress");
     }
   }
 }

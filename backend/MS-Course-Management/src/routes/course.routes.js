@@ -1,12 +1,12 @@
 const CourseService = require("../services/course.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 const upload = require("../utils/multerConfig");
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new CourseService();
   const baseUrl = "/course";
 
-  //To listen
-  SubscribeMessages(channel, service);
+  /* //To listen
+  SubscribeMessages(channel, service); */
 
   //Other routes
   //TODO: complete this functions
@@ -81,6 +81,16 @@ module.exports = (app, channel) => {
         instructor: req.user.id,
       };
       const result = await service.GetInstructorCourses(body);
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  //get course progress
+  app.get(`${baseUrl}/progress/:id`, async (req, res) => {
+    try {
+      const result = await service.GetCourseProgress(req);
       res.send(result);
     } catch (err) {
       console.log(err);

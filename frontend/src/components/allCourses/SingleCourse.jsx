@@ -18,6 +18,7 @@ import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import LanguageIcon from "@mui/icons-material/Language";
 import toast, { Toaster } from "react-hot-toast";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 const style = {
   position: "absolute",
@@ -65,6 +66,29 @@ const SingleCourse = () => {
     };
     fetchCourseDetails();
   }, [id]);
+
+  const [courseProgressData, setcourseProgressData] = useState({});
+  const [loadingProgress, setLoadingProgress] = useState(true);
+  useEffect(() => {
+    const newToken = localStorage.getItem("ds-token");
+    const fetchCourseProgressDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/ms-course/course/progress/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${newToken}`,
+            },
+          }
+        );
+        setcourseProgressData(response.data.data);
+        setLoadingProgress(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCourseProgressDetails();
+  }, []);
 
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -164,6 +188,8 @@ const SingleCourse = () => {
     setExpanded((prevExpanded) => !prevExpanded);
   };
 
+  console.log(courseProgressData);
+
   return (
     <>
       <motion.div
@@ -181,7 +207,7 @@ const SingleCourse = () => {
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/all-dashboard">
+          <Link underline="hover" color="inherit" href="/dashboard">
             All Courses
           </Link>
           <Link underline="hover" color="inherit" href={`/courses/${id}`}>
@@ -290,10 +316,10 @@ const SingleCourse = () => {
         className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
       >
         <div className="flex justify-between ">
-          <h1 className="mb-8 text-4xl font-bold text-start">
+          <h2 className="mb-8 text-4xl font-bold text-start">
             {" "}
             Course Content{" "}
-          </h1>
+          </h2>
           {role === "Instructor" && (
             <Button
               variant="default"
@@ -389,6 +415,45 @@ const SingleCourse = () => {
           )}
         </div>
       </motion.div>
+      {/* Course Progress */}
+      {role === "Instructor" && !loadingProgress && (
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{
+            opacity: 1,
+            transition: {
+              duration: 2,
+              type: "tween",
+              ease: "backOut",
+            },
+            y: 0,
+          }}
+          viewport={{ once: true }}
+          className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
+        >
+          <h2 className="mb-8 text-4xl font-bold text-start">
+            {" "}
+            Course Progress{" "}
+          </h2>
+
+          <div className="flex flex-col space-y-4 ">
+            {courseProgressData?.map((progress, index) =>
+              progress.courseProgress.map((item, index) => (
+                <div key={index} className="flex flex-col gap-3 ">
+                  <ProgressBar
+                    now={(item.progress * 100).toFixed(2)}
+                    label={`${(1 - item.progress) * 100}%`}
+                  />
+                  <p className="text-lg font-medium ">
+                    {" "}
+                    {progress.student_id}{" "}
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
+        </motion.div>
+      )}
       {/* approve modal */}
       <Modal
         open={open}

@@ -1,11 +1,11 @@
 const NotificationService = require("../services/notification.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new NotificationService();
   const baseurl = "/notification";
-  //To listen
-  SubscribeMessages(channel, service);
+  /*  //To listen
+  SubscribeMessages(channel, service); */
 
   //Other routes
   app.post(`${baseurl}/create-dashboard`, async (req, res) => {

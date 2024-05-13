@@ -107,10 +107,10 @@ const UpdateCourse = () => {
       >
         <div role="presentation" className="px-5 ">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href={`/all-dashboard`}>
+            <Link underline="hover" color="inherit" href={`/dashboard`}>
               All Courses
             </Link>
-            <Link underline="hover" color="inherit" href={`/course/${id}`}>
+            <Link underline="hover" color="inherit" href={`/course-page/${id}`}>
               {course?.name}
             </Link>
             <Link

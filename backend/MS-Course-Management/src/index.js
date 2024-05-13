@@ -2,7 +2,7 @@ const express = require("express");
 const expressApp = require("./app");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const { CreateChannel } = require("./utils/index.utils");
+/* const { CreateChannel } = require("./utils/index.utils"); */
 
 const StartServer = async () => {
   //! Load environment variables
@@ -23,9 +23,9 @@ const StartServer = async () => {
     });
 
   // //! Create channel
-  const channel = await CreateChannel();
+  /*   const channel = await CreateChannel(); */
 
-  await expressApp(app, channel);
+  await expressApp(app);
   //-//
   app.listen(PORT, () => {
     console.log(`Course Management Microservice running on ${PORT}`);

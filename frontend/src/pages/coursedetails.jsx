@@ -8,7 +8,7 @@ import Accordion from "react-bootstrap/Accordion";
 const CourseDetails = () => {
   const { id } = useParams();
   const token = localStorage.getItem("ds-token");
-  console.log(id);
+
   const [course, setCourse] = useState({});
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -70,7 +70,9 @@ const CourseDetails = () => {
             <p className="course-duration">
               <b>{course.duration}</b>
             </p>
-            <button className="purchase-button">Purchase</button>
+            <a className="purchase-button" href={`/payment/${id}`}>
+              Purchase
+            </a>
           </div>
         </div>
 

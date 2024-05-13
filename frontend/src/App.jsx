@@ -51,7 +51,7 @@ function App() {
           <Route path="/course/:id" element={<CourseDetails />} />
           <Route path="/mycourses" element={<MyCourses />} />
           <Route path="/mycourse/:id" element={<MyCourseDetails />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/:id" element={<Payment />} />
           <Route path="/success" element={<Successpage />} />
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
