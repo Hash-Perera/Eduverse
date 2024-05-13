@@ -22,9 +22,7 @@ const CourseCard = ({ course }) => {
             <div className="flex justify-between">
               <div className="text-xl font-semibold">{course?.name}</div>
 
-              <div className="text-xl font-semibold">
-                $ {""} {course?.price}
-              </div>
+              <div className="text-xl font-semibold">LKR {course?.price}</div>
             </div>
             <div className="text-gray-500">{course?.description}</div>
             <div className="flex justify-between">
