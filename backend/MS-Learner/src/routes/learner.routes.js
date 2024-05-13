@@ -104,4 +104,15 @@ module.exports = (app, channel) => {
       res.status(500).send("Internal Server Error");
     }
   });
+
+  //monitor the progress of the course
+  app.get(`${baseurl}/course/progress/:id`, async (req, res) => {
+    try {
+      const result = await service.monitorCourseProgress(req.params, res);
+      res.send(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 };
