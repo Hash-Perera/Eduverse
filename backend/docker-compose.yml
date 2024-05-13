@@ -16,3 +16,39 @@ services:
       - "8001:8001"
     depends_on:
       - api-gateway
+
+  course-service:
+    build:
+      context: ./MS-Course-Management
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    depends_on:
+      - api-gateway
+
+  learner-service:
+    build:
+      context: ./MS-Learner
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    depends_on:
+      - api-gateway
+
+  notification-service:
+    build:
+      context: ./MS-Notification
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    depends_on:
+      - api-gateway
+
+  payment-service:
+    build:
+      context: ./MS-Payment
+      dockerfile: Dockerfile
+    ports:
+      - "8005:8005"
+    depends_on:
+      - api-gateway
