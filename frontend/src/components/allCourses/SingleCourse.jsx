@@ -154,7 +154,7 @@ const SingleCourse = () => {
       );
       if (response.status === 200) {
         toast.success("Course Deleted Successfully");
-        window.location.href = "/all-dashboard";
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       toast.error("Error Deleting Course");
@@ -366,14 +366,21 @@ const SingleCourse = () => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="flex flex-col gap-3 ">
-                      {lesson?.video && (
-                        <iframe
-                          src={lesson?.video}
-                          title={lesson?.title}
-                          width="200px"
-                          height="300px"
-                        ></iframe>
-                      )}
+                      {lesson?.video &&
+                        (lesson?.video.startsWith("http") ? (
+                          <iframe
+                            src={lesson?.video}
+                            title={lesson?.title}
+                            className="w-[200px] md:w-[400px] h-[300px]"
+                          ></iframe>
+                        ) : (
+                          <video
+                            src={`/pdf/${lesson?.video}`}
+                            title={lesson?.title}
+                            className="w-[200px] md:w-[400px] h-[300px]"
+                            controls
+                          ></video>
+                        ))}
                       <p className="text-lg font-normal ">
                         {" "}
                         {lesson?.description}{" "}

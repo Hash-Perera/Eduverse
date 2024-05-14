@@ -358,7 +358,7 @@ export default function PrimaryAppBar() {
           <img src={Logo1} alt="Your Image" style={{ height: "3.5rem" }} />
           <Box sx={{ flexGrow: 1 }}>
             {token && (
-              <div className="flex justify-center gap-4 text-lg font-medium">
+              <div className="flex justify-center gap-6 text-lg font-medium">
                 {role === "Learner" && (
                   <>
                     <button
@@ -381,18 +381,17 @@ export default function PrimaryAppBar() {
                   </>
                 )}
 
-                {role === "Admin" ||
-                  (role === "Instructor" && (
-                    <button
-                      onClick={() => {
-                        Navigate("/dashboard");
-                      }}
-                      className=" hover:font-bold"
-                    >
-                      {" "}
-                      Dashboard
-                    </button>
-                  ))}
+                {(role === "Admin" || role === "Instructor") && (
+                  <button
+                    onClick={() => {
+                      Navigate("/dashboard");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Dashboard
+                  </button>
+                )}
                 {role === "Instructor" && (
                   <button
                     onClick={() => {
