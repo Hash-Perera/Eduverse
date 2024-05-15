@@ -104,7 +104,11 @@ const Login = () => {
                   <div className="m-5"></div>
                   <InputField name="email" label="Email" />
                   <div className="m-3"></div>
-                  <InputField name="password" label="Password" />
+                  <InputField
+                    name="password"
+                    type="password"
+                    label="Password"
+                  />
                   <div className="m-5"></div>
 
                   <div className="flex gap-5 ">

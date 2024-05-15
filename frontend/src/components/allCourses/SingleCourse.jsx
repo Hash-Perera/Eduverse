@@ -449,7 +449,7 @@ const SingleCourse = () => {
                 <div key={index} className="flex flex-col gap-3 ">
                   <ProgressBar
                     now={(item.progress * 100).toFixed(2)}
-                    label={`${(1 - item.progress) * 100}%`}
+                    label={`${item.progress * 100}%`}
                   />
                   <p className="text-lg font-medium ">
                     {" "}

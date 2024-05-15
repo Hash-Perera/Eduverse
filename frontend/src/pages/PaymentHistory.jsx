@@ -55,7 +55,7 @@ export default function PaymentHistory() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">{row?.courseName}</TableCell>
-                <TableCell align="center">{row?.payment?.user}</TableCell>
+                <TableCell align="center">{row?.payment?.userName}</TableCell>
                 <TableCell align="center">{row?.payment?.price}</TableCell>
               </TableRow>
             ))}

@@ -24,6 +24,8 @@ class AuthService {
   async Register(payload, res) {
     const encryptedPassword = await argon2.hash(payload.data.password);
     payload.data.password = encryptedPassword;
+    payload.data.role = "6627d0f5e4e44957d18dec24";
+
     const newUser = await User.create(payload.data);
     res.status(200).send({
       success: true,
