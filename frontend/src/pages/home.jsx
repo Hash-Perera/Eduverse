@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import FormExample from "./formexample";
 import CommonCard from "../components/common-card";
 import PrimaryAppBar from "../components/header";
@@ -86,328 +87,389 @@ const Home = () => {
 
   return (
     <>
-      <div style={{ height: "100vh" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={12}>
-            <PrimaryAppBar />
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+      >
+        <div style={{ height: "100vh" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12}>
+              <PrimaryAppBar />
+            </Grid>
+
+            <Grid
+              container
+              xs={12}
+              sm={12}
+              md={12}
+              style={{
+                paddingLeft: "5%",
+                paddingRight: "5%",
+                paddingTop: "2%",
+              }}
+            >
+              <Grid item xs={5} sm={5} md={5}>
+                <CircleSet />
+              </Grid>
+              <Grid
+                item
+                xs={7}
+                sm={7}
+                md={7}
+                style={{
+                  paddingLeft: "7rem",
+                  paddingTop: "3rem",
+                }}
+              >
+                <Typography variant="h3" fontWeight="bold">
+                  Discover Your Path
+                </Typography>
+                <Typography variant="h3" fontWeight="bold">
+                  Find Your Perfect Course Today
+                </Typography>
+                <Typography
+                  variant="body1"
+                  className="mt-4"
+                  style={{ lineHeight: "1.8", letterSpacing: "0.5px" }}
+                >
+                  Explore thousands of courses taught by experts in various
+                  fields.
+                  <br /> Whether you're looking to enhance your career or pursue
+                  a personal interest, <br /> we have something for everyone.
+                </Typography>
+                <Typography
+                  variant="body1"
+                  style={{ color: colors.primary, marginTop: "1rem" }}
+                  fontWeight="bold"
+                >
+                  Start your learning journey today!
+                </Typography>
+                <Stack direction="row" spacing={2} className="mt-5">
+                  <Button variant="outlined" color="secondary">
+                    Learn More
+                  </Button>
+                  <Button variant="contained" color="secondary">
+                    Get Started
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid
-            container
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ paddingLeft: "5%", paddingRight: "5%", paddingTop: "2%" }}
-          >
-            <Grid item xs={5} sm={5} md={5}>
-              <CircleSet />
+        </div>
+      </motion.div>
+
+      {/*Payment section*/}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+      >
+        <div
+          style={{
+            paddingLeft: "12%",
+            paddingRight: "12%",
+            paddingTop: "5rem",
+            paddingBottom: "5rem",
+          }}
+        >
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              className="d-flex flex-column align-items-center mb-5"
+            >
+              <Typography variant="h4">Most popular courses</Typography>
+            </Grid>
+            {courseList.map((course, index) => (
+              <Grid item xs={6} sm={4} md={4} lg={3}>
+                <Card sx={{ height: 300 }}>
+                  <CardMedia sx={{ height: 140 }} image={course.imageUrl} />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {course.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="description"
+                    >
+                      {course.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">Learn More</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      </motion.div>
+      {/*Feedback section*/}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+      >
+        <div
+          style={{
+            paddingLeft: "12%",
+            paddingRight: "12%",
+            paddingTop: "5rem",
+            paddingBottom: "5rem",
+            backgroundColor: colors.primary,
+          }}
+        >
+          <Grid container spacing={1}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              className="d-flex flex-column align-items-center mb-5"
+            >
+              <Typography variant="h4" color="#fff">
+                Join thousands of Eduverse learners achieving their goals
+              </Typography>
+              <Typography variant="body1" color="#fff">
+                77% of learners report career benefits, like landing a new job,
+                earning a promotion, gaining applicable skills, and more.
+              </Typography>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <CommonCard
+                style={{ padding: "1rem", width: "100%" }}
+                className="d-flex flex-column align-items-center"
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={WomenImage1}
+                  sx={{ width: 200, height: 200 }}
+                />
+                <div className="mt-4" style={{ width: "90%" }}>
+                  <Typography variant="p">
+                    "I have a full-time job and 3 kids. I needed the flexibility
+                    offered by Coursera Plus in order to achieve my goals. I
+                    learned business statistics and analysis to apply to my job,
+                    but my Coursera Plus subscription motivated me to keep
+                    learning. I have a new career goal to pivot into data
+                    analysis and data science. I'm learning Python now!"
+                  </Typography>
+                </div>
+              </CommonCard>
             </Grid>
             <Grid
               item
-              xs={7}
-              sm={7}
-              md={7}
-              style={{
-                paddingLeft: "7rem",
-                paddingTop: "3rem",
-              }}
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
             >
-              <Typography variant="h3" fontWeight="bold">
-                Discover Your Path
-              </Typography>
-              <Typography variant="h3" fontWeight="bold">
-                Find Your Perfect Course Today
-              </Typography>
-              <Typography
-                variant="body1"
-                className="mt-4"
-                style={{ lineHeight: "1.8", letterSpacing: "0.5px" }}
+              <CommonCard
+                style={{ padding: "1rem", width: "100%" }}
+                className="d-flex flex-column align-items-center"
               >
-                Explore thousands of courses taught by experts in various
-                fields.
-                <br /> Whether you're looking to enhance your career or pursue a
-                personal interest, <br /> we have something for everyone.
-              </Typography>
-              <Typography
-                variant="body1"
-                style={{ color: colors.primary, marginTop: "1rem" }}
-                fontWeight="bold"
+                <Avatar
+                  alt="Remy Sharp"
+                  src={MenImage1}
+                  sx={{ width: 200, height: 200 }}
+                />
+                <div className="mt-4" style={{ width: "90%" }}>
+                  <Typography variant="p">
+                    "I have a full-time job and 3 kids. I needed the flexibility
+                    offered by Coursera Plus in order to achieve my goals. I
+                    learned business statistics and analysis to apply to my job,
+                    but my Coursera Plus subscription motivated me to keep
+                    learning. I have a new career goal to pivot into data
+                    analysis and data science. I'm learning Python now!"
+                  </Typography>
+                </div>
+              </CommonCard>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <CommonCard
+                style={{ padding: "1rem", width: "100%" }}
+                className="d-flex flex-column align-items-center"
               >
-                Start your learning journey today!
-              </Typography>
-              <Stack direction="row" spacing={2} className="mt-5">
-                <Button variant="outlined" sx={{ border: "1px solid #1d7a95" }}>
-                  Learn More
-                </Button>
-                <Button variant="contained" sx={{ backgroundColor: "#1d7a95" }}>
-                  Get Started
-                </Button>
-              </Stack>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={WomenImage2}
+                  sx={{ width: 200, height: 200 }}
+                />
+                <div className="mt-4" style={{ width: "90%" }}>
+                  <Typography variant="p">
+                    "I have a full-time job and 3 kids. I needed the flexibility
+                    offered by Coursera Plus in order to achieve my goals. I
+                    learned business statistics and analysis to apply to my job,
+                    but my Coursera Plus subscription motivated me to keep
+                    learning. I have a new career goal to pivot into data
+                    analysis and data science. I'm learning Python now!"
+                  </Typography>
+                </div>
+              </CommonCard>
             </Grid>
           </Grid>
-        </Grid>
-      </div>
-
+        </div>
+      </motion.div>
       {/*Payment section*/}
-      <div
-        style={{
-          paddingLeft: "12%",
-          paddingRight: "12%",
-          paddingTop: "5rem",
-          paddingBottom: "5rem",
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
         }}
+        viewport={{ once: true }}
       >
-        <Grid container spacing={3}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            className="d-flex flex-column align-items-center mb-5"
-          >
-            <Typography variant="h4">Most populor courses</Typography>
-          </Grid>
-          {courseList.map((course, index) => (
-            <Grid item xs={3} sm={3} md={3}>
-              <Card sx={{ width: 260, height: 300 }}>
-                <CardMedia sx={{ height: 140 }} image={course.imageUrl} />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {course.title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    className="description"
-                  >
-                    {course.description}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions>
-              </Card>
+        <div
+          style={{
+            paddingLeft: "12%",
+            paddingRight: "12%",
+            paddingTop: "5rem",
+            paddingBottom: "5rem",
+            //backgroundColor: "#1d7a95",
+          }}
+        >
+          <Grid container spacing={1}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              className="d-flex flex-column align-items-center mb-5"
+            >
+              <Typography variant="h4">
+                Choose the plan that's right for you or your team's goals
+              </Typography>
             </Grid>
-          ))}
-        </Grid>
-      </div>
-      {/*Feedback section*/}
-      <div
-        style={{
-          paddingLeft: "12%",
-          paddingRight: "12%",
-          paddingTop: "5rem",
-          paddingBottom: "5rem",
-          backgroundColor: colors.primary,
-        }}
-      >
-        <Grid container spacing={1}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            className="d-flex flex-column align-items-center mb-5"
-          >
-            <Typography variant="h4" color="#fff">
-              Join thousands of Eduverse learners achieving their goals
-            </Typography>
-            <Typography variant="body1" color="#fff">
-              77% of learners report career benefits, like landing a new job,
-              earning a promotion, gaining applicable skills, and more.
-            </Typography>
-          </Grid>
 
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{ padding: "1rem", width: "100%" }}
-              className="d-flex flex-column align-items-center"
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
             >
-              <Avatar
-                alt="Remy Sharp"
-                src={WomenImage1}
-                sx={{ width: 200, height: 200 }}
-              />
-              <div className="mt-4" style={{ width: "90%" }}>
-                <Typography variant="p">
-                  "I have a full-time job and 3 kids. I needed the flexibility
-                  offered by Coursera Plus in order to achieve my goals. I
-                  learned business statistics and analysis to apply to my job,
-                  but my Coursera Plus subscription motivated me to keep
-                  learning. I have a new career goal to pivot into data analysis
-                  and data science. I'm learning Python now!"
+              <CommonCard
+                style={{ padding: "2.5rem", width: "100%", height: "300px" }}
+                className="d-flex flex-column align-items-center text-center"
+              >
+                <Typography variant="h5">Single learning program</Typography>
+                <Typography variant="body2" className="mt-3">
+                  Learn a single topic or skill and earn a credential
                 </Typography>
-              </div>
-            </CommonCard>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{ padding: "1rem", width: "100%" }}
-              className="d-flex flex-column align-items-center"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src={MenImage1}
-                sx={{ width: 200, height: 200 }}
-              />
-              <div className="mt-4" style={{ width: "90%" }}>
-                <Typography variant="p">
-                  "I have a full-time job and 3 kids. I needed the flexibility
-                  offered by Coursera Plus in order to achieve my goals. I
-                  learned business statistics and analysis to apply to my job,
-                  but my Coursera Plus subscription motivated me to keep
-                  learning. I have a new career goal to pivot into data analysis
-                  and data science. I'm learning Python now!"
+                <Typography variant="h5" className="mt-5">
+                  $49 – $79 /month
                 </Typography>
-              </div>
-            </CommonCard>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{ padding: "1rem", width: "100%" }}
-              className="d-flex flex-column align-items-center"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src={WomenImage2}
-                sx={{ width: 200, height: 200 }}
-              />
-              <div className="mt-4" style={{ width: "90%" }}>
-                <Typography variant="p">
-                  "I have a full-time job and 3 kids. I needed the flexibility
-                  offered by Coursera Plus in order to achieve my goals. I
-                  learned business statistics and analysis to apply to my job,
-                  but my Coursera Plus subscription motivated me to keep
-                  learning. I have a new career goal to pivot into data analysis
-                  and data science. I'm learning Python now!"
+                <Typography variant="body2" className="mt-3">
+                  Visit an individual course or Specialization page to purchase.
                 </Typography>
-              </div>
-            </CommonCard>
-          </Grid>
-        </Grid>
-      </div>
-
-      {/*Payment section*/}
-      <div
-        style={{
-          paddingLeft: "12%",
-          paddingRight: "12%",
-          paddingTop: "5rem",
-          paddingBottom: "5rem",
-          //backgroundColor: "#1d7a95",
-        }}
-      >
-        <Grid container spacing={1}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            className="d-flex flex-column align-items-center mb-5"
-          >
-            <Typography variant="h4">
-              Choose the plan that's right for you or your team's goals
-            </Typography>
-          </Grid>
-
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{ padding: "2.5rem", width: "100%", height: "300px" }}
-              className="d-flex flex-column align-items-center text-center"
+              </CommonCard>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
             >
-              <Typography variant="h5">Single learning program</Typography>
-              <Typography variant="body2" className="mt-3">
-                Learn a single topic or skill and earn a credential
-              </Typography>
-              <Typography variant="h5" className="mt-5">
-                $49 – $79 /month
-              </Typography>
-              <Typography variant="body2" className="mt-3">
-                Visit an individual course or Specialization page to purchase.
-              </Typography>
-            </CommonCard>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{
-                padding: "2.5rem",
-                width: "100%",
-                height: "300px",
-                backgroundColor: colors.primary,
-                color: "#fff",
-              }}
-              className="d-flex flex-column align-items-center text-center"
+              <CommonCard
+                style={{
+                  padding: "2.5rem",
+                  width: "100%",
+                  height: "300px",
+                  backgroundColor: colors.primary,
+                  color: "#fff",
+                }}
+                className="d-flex flex-column align-items-center text-center"
+              >
+                <Typography variant="h5">Eduverse Plus Monthly</Typography>
+                <Typography variant="body2" className="mt-3">
+                  Complete multiple courses and earn credentials in the short
+                  term
+                </Typography>
+                <Typography variant="h5" className="mt-5">
+                  $59 /month
+                </Typography>
+                <Typography variant="body2" className="mt-3">
+                  Cancel anytime
+                </Typography>
+              </CommonCard>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className="d-flex align-items-center justify-content-center"
             >
-              <Typography variant="h5">Eduverse Plus Monthly</Typography>
-              <Typography variant="body2" className="mt-3">
-                Complete multiple courses and earn credentials in the short term
-              </Typography>
-              <Typography variant="h5" className="mt-5">
-                $59 /month
-              </Typography>
-              <Typography variant="body2" className="mt-3">
-                Cancel anytime
-              </Typography>
-            </CommonCard>
+              <CommonCard
+                style={{
+                  padding: "2.5rem",
+                  width: "100%",
+                  height: "300px",
+                }}
+                className="d-flex flex-column align-items-center text-center"
+              >
+                <Typography variant="h5">Eduverse Plus Annual</Typography>
+                <Typography variant="body2" className="mt-3">
+                  Combine flexibility and savings with long-term learning goals
+                </Typography>
+                <Typography variant="h5" className="mt-5">
+                  $399 /year
+                </Typography>
+                <Typography variant="body2" className="mt-3">
+                  14-day money-back guarantee
+                </Typography>
+              </CommonCard>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex align-items-center justify-content-center"
-          >
-            <CommonCard
-              style={{
-                padding: "2.5rem",
-                width: "100%",
-                height: "300px",
-              }}
-              className="d-flex flex-column align-items-center text-center"
-            >
-              <Typography variant="h5">Eduverse Plus Annual</Typography>
-              <Typography variant="body2" className="mt-3">
-                Combine flexibility and savings with long-term learning goals
-              </Typography>
-              <Typography variant="h5" className="mt-5">
-                $399 /year
-              </Typography>
-              <Typography variant="body2" className="mt-3">
-                14-day money-back guarantee
-              </Typography>
-            </CommonCard>
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+      </motion.div>
 
       {/*Footer section*/}
       <Footer />

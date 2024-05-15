@@ -8,6 +8,8 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import PrimaryAppBar from "../components/header";
 import Dropdown from "../components/form-ui/dropdown";
+import { motion } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -65,95 +67,112 @@ const AddCourse = () => {
 
       if (response.ok) {
         console.log("Data submitted successfully");
-        alert("Data submitted successfully");
+        toast.success("Course added successfully");
       } else {
         console.error("Failed to submit data");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
+      toast.error("Failed to add course");
     }
   };
   return (
     <>
       {" "}
       <PrimaryAppBar />
-      <div role="presentation" className=" px-5">
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
-            My Courses
-          </Link>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+        className=" max-w-[1440px]  mx-auto px-4 py-[48px] md:py-[56px]"
+      >
+        <div role="presentation" className="px-5 ">
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/dashboard">
+              Courses
+            </Link>
 
-          <Link
-            underline="hover"
-            color="text.primary"
-            href="/add-course"
-            aria-current="page"
-          >
+            <Link
+              underline="hover"
+              color="text.primary"
+              href="/add-course"
+              aria-current="page"
+            >
+              Add Course
+            </Link>
+          </Breadcrumbs>
+
+          <Typography variant="h4" className="p-2">
             Add Course
-          </Link>
-        </Breadcrumbs>
+          </Typography>
 
-        <Typography variant="h4" className="p-2">
-          Add Course
-        </Typography>
-
-        <div className="px-5 " style={{ height: "100vh", width: "60%" }}>
-          <Formik
-            initialValues={{
-              name: "",
-              price: "",
-              duration: "",
-              instructor: "",
-              description: "",
-              category: "web",
-            }}
-            onSubmit={(values) => {
-              handleSubmit(values);
-            }}
-          >
-            <Form style={{ width: "70%" }}>
-              <div className="m-5"></div>
-              <InputField name="name" label="Course Name" />
-              <div className="m-3"></div>
-              <InputField name="price" label="Course Price" />
-              <div className="m-3"></div>
-              <InputField name="duration" label="Course Duration" />
-              <div className="m-3"></div>
-              <InputField name="description" label="Course Description" />
-              <div className="m-3"></div>
-              <Dropdown
-                name="category"
-                label="Category"
-                options={{
-                  "": "",
-                  web: "Web Development",
-                  mobile: "Mobile Development",
-                  "data science": "Data Science",
-                  ML: "Machine Learning",
-                }}
-              />
-              <div className="m-3"></div>
-              <Button
-                component="label"
-                role={undefined}
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload Image
-                <VisuallyHiddenInput
-                  name="image"
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+          <div className="px-5 " style={{ height: "100vh", width: "80%" }}>
+            <Formik
+              initialValues={{
+                name: "",
+                price: "",
+                duration: "",
+                instructor: "",
+                description: "",
+                category: "web",
+              }}
+              onSubmit={(values) => {
+                handleSubmit(values);
+              }}
+            >
+              <Form style={{ width: "70%" }}>
+                <div className="m-5"></div>
+                <InputField name="name" label="Course Name" />
+                <div className="m-3"></div>
+                <InputField name="price" label="Course Price" />
+                <div className="m-3"></div>
+                <InputField name="duration" label="Course Duration" />
+                <div className="m-3"></div>
+                <InputField name="description" label="Course Description" />
+                <div className="m-3"></div>
+                <Dropdown
+                  name="category"
+                  label="Category"
+                  options={{
+                    "": "",
+                    web: "Web Development",
+                    mobile: "Mobile Development",
+                    "data science": "Data Science",
+                    ML: "Machine Learning",
+                  }}
                 />
-              </Button>
-              <div className="m-3"></div>
-              <Button variant="contained" color="primary" type="submit">
-                Add Course
-              </Button>
-            </Form>
-          </Formik>
+                <div className="m-3"></div>
+                <Button
+                  component="label"
+                  role={undefined}
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput
+                    name="image"
+                    type="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </Button>
+                <div className="m-3"></div>
+                <Button variant="contained" color="primary" type="submit">
+                  Add Course
+                </Button>
+              </Form>
+            </Formik>
+          </div>
         </div>
-      </div>
+      </motion.div>
+      <Toaster />
     </>
   );
 };

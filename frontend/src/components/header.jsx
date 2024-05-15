@@ -97,7 +97,7 @@ export default function PrimaryAppBar() {
   const handleLogOut = () => {
     localStorage.removeItem("ds-token");
     localStorage.removeItem("ds-role");
-    Navigate("/");
+    window.location.href = "/";
   };
 
   //! Profile Click
@@ -314,6 +314,7 @@ export default function PrimaryAppBar() {
   //!=========================================================================
 
   //! Main AppBar
+  const role = localStorage.getItem("ds-role");
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -353,8 +354,70 @@ export default function PrimaryAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search> */}
-          <img src={Logo1} alt="Your Image" style={{ height: "22rem" }} />
-          <Box sx={{ flexGrow: 1 }} />
+
+          <img src={Logo1} alt="Your Image" style={{ height: "3.5rem" }} />
+          <Box sx={{ flexGrow: 1 }}>
+            {token && (
+              <div className="flex justify-center gap-6 text-lg font-medium">
+                {role === "Learner" && (
+                  <>
+                    <button
+                      onClick={() => {
+                        Navigate("/dashboard");
+                      }}
+                      className=" hover:font-bold"
+                    >
+                      All Courses
+                    </button>
+                    <button
+                      onClick={() => {
+                        Navigate("/mycourses");
+                      }}
+                      className=" hover:font-bold"
+                    >
+                      {" "}
+                      My Courses
+                    </button>
+                  </>
+                )}
+
+                {(role === "Admin" || role === "Instructor") && (
+                  <button
+                    onClick={() => {
+                      Navigate("/dashboard");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Dashboard
+                  </button>
+                )}
+                {role === "Instructor" && (
+                  <button
+                    onClick={() => {
+                      Navigate("/add-course");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Add Course
+                  </button>
+                )}
+                {role === "Admin" && (
+                  <button
+                    onClick={() => {
+                      Navigate("/payment-history");
+                    }}
+                    className=" hover:font-bold"
+                  >
+                    {" "}
+                    Payment History
+                  </button>
+                )}
+              </div>
+            )}
+          </Box>
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {token && (
               <>

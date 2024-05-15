@@ -45,30 +45,6 @@ class LessonService {
     }
   }
 
-  //Get lessons for a course
-  async GetLessons(payload, res) {
-    try {
-      const lessons = await Lesson.find({ course: payload.data.courseId });
-      res.status(200).send({
-        success: true,
-        data: lessons,
-        message: "Lessons fetched successfully",
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  //get all lessons
-  async GetAllLessons(res) {
-    const lessons = await Lesson.find();
-    res.status(200).send({
-      success: true,
-      data: lessons,
-      message: "Lessons fetched successfully",
-    });
-  }
-
   //delete lesson
   async DeleteLesson(payload, res) {
     try {

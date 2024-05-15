@@ -1,14 +1,19 @@
 const NotificationService = require("../services/notification.service");
-const { SubscribeMessages } = require("../utils/index.utils");
+/* const { SubscribeMessages } = require("../utils/index.utils"); */
 
-module.exports = (app, channel) => {
+module.exports = (app) => {
   const service = new NotificationService();
   const baseurl = "/notification";
-  //To listen
-  SubscribeMessages(channel, service);
+  /*  //To listen
+  SubscribeMessages(channel, service); */
 
   //Other routes
   app.post(`${baseurl}/create-dashboard`, async (req, res) => {
+    const result = await service.DashboardNotification(req.body, res);
+    res.send(result);
+  });
+
+  app.post(`${baseurl}/create-dashboard-logout`, async (req, res) => {
     const result = await service.DashboardNotification(req.body, res);
     res.send(result);
   });
@@ -25,12 +30,18 @@ module.exports = (app, channel) => {
 
   app.post(`${baseurl}/send-email`, async (req, res) => {
     const { email, subject, message } = req.body;
-    return await service.SendEmail(email, subject, message);
+    return await service.SendEmail(email, subject, message, res);
   });
 
   app.post(`${baseurl}/send-otp`, async (req, res) => {
     const { userId, otp, email } = req.body;
     const html = ` <h1>Hello user</h1> <p>Your OTP to change password ${otp}<p> <br> <p>Regards<br>Thank you<br>Eduverse</p> `;
+    return await service.SendEmail(email, "Password Reset", html, res);
+  });
+
+  app.post(`${baseurl}/send-otp-logout`, async (req, res) => {
+    const { userId, otp, email } = req.body;
+    const html = ` <h1>Hello user</h1> <p>Your OTP to logout ${otp}<p> <br> <p>Regards<br>Thank you<br>Eduverse</p> `;
     return await service.SendEmail(email, "Password Reset", html, res);
   });
 };

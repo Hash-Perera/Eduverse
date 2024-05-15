@@ -1,4 +1,5 @@
 const Course = require("../schema/course.schema");
+const axios = require("axios");
 
 class CourseService {
   //? This is remote service function
@@ -90,7 +91,8 @@ class CourseService {
   }
 
   //update course status
-  async UpdateCourseStatus(payload, res) {
+  async UpdateCourseStatus(req, res) {
+    const payload = req.body;
     try {
       const course = await Course.findOneAndUpdate(
         { _id: payload.id },
@@ -104,6 +106,30 @@ class CourseService {
           message: "Course not found",
         });
       }
+
+      const notifiObject = {
+        title: "Approved",
+        message: `Your ${course.name} has been approved`,
+        data: {},
+        viewed: false,
+        userId: course.instructor,
+      };
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/ms-notification/notification/create-dashboard",
+          notifiObject,
+          {
+            headers: {
+              Authorization: req.headers.authorization,
+            },
+          }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error creating notification:", error);
+      }
+
       res.status(200).send({
         success: true,
         data: course,
@@ -162,59 +188,78 @@ class CourseService {
   //get courses for specified instructor
   async GetInstructorCourses(payload) {
     try {
-      if (payload.body.instructor) {
-        if (payload.query.category === "all") {
-          const courses = await Course.find({
-            instructor: payload.body.instructor,
-            status: payload.query.status,
+      if (payload.category === "all") {
+        const courses = await Course.find({
+          status: payload.status,
+          instructor: payload.instructor,
+        })
+          .populate({
+            path: "lessons",
+            model: "Lesson",
           })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
+          .exec();
 
-          return courses;
-        } else {
-          const courses = await Course.find({
-            instructor: payload.body.instructor,
-            category: payload.query.category,
-            status: payload.query.status,
-          })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
-
-          return courses;
-        }
+        return courses;
       } else {
-        if (payload.query.category === "all") {
-          const courses = await Course.find({ status: payload.query.status })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
-
-          return courses;
-        } else {
-          const courses = await Course.find({
-            category: payload.query.category,
-            status: payload.query.status,
+        const courses = await Course.find({
+          category: payload.category,
+          status: payload.status,
+          instructor: payload.instructor,
+        })
+          .populate({
+            path: "lessons",
+            model: "Lesson",
           })
-            .populate({
-              path: "lessons",
-              model: "Lesson",
-            })
-            .exec();
+          .exec();
 
-          return courses;
-        }
+        return courses;
       }
     } catch (err) {
       console.log(err);
+    }
+    if (payload.query.category === "all") {
+      const courses = await Course.find({
+        instructor: payload.body.instructor,
+        status: payload.query.status,
+      })
+        .populate({
+          path: "lessons",
+          model: "Lesson",
+        })
+        .exec();
+
+      return courses;
+    } else {
+      const courses = await Course.find({
+        instructor: payload.body.instructor,
+        category: payload.query.category,
+        status: payload.query.status,
+      })
+        .populate({
+          path: "lessons",
+          model: "Lesson",
+        })
+        .exec();
+
+      return courses;
+    }
+  }
+
+  async GetCourseProgress(req, res) {
+    try {
+      const progressData = await axios.get(
+        `http://localhost:8000/ms-learner/learner/course/progress/${req.params.id}`,
+        {
+          headers: {
+            Authorization: req.headers.authorization,
+          },
+        }
+      );
+
+      const { data } = progressData;
+      return data;
+    } catch (err) {
+      console.error(err);
     }
   }
 

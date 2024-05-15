@@ -70,46 +70,53 @@ class LearnerService {
   }
 
   //get enrolled courses
-  async getEnrolledCourses(payload, res, token) {
-    const learner = await Learner.findOne({
-      student_id: payload.student_id,
-    });
-    if (!learner) {
+  async getEnrolledCourses(payload, token) {
+    try {
+      const learner = await Learner.findOne({
+        student_id: payload.student_id,
+      });
+      if (!learner) {
+        return {
+          message: "No courses enrolled",
+        };
+      }
+
+      const enrolledCourseIds = learner.enrolledCourses.map(
+        (course) => course.courseId
+      );
+
+      const courseDetailsPromises = enrolledCourseIds.map(async (courseId) => {
+        const courseDetailsResponse = await axios.get(
+          `http://localhost:8000/ms-course/course/get-by-id/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        return courseDetailsResponse.data;
+      });
+
+      const courseDetails = await Promise.all(courseDetailsPromises);
+
+      const response = {
+        /*  enrolledCourses: learner.enrolledCourses, */
+        courseDetails: courseDetails,
+      };
+
+      console.log(response);
+
       return {
-        message: "No courses enrolled",
+        success: true,
+        data: response,
+        message: "Courses fetched successfully",
+      };
+    } catch (err) {
+      return {
+        message: err.message,
       };
     }
-
-    const enrolledCourseIds = learner.enrolledCourses.map(
-      (course) => course.courseId
-    );
-
-    const courseDetailsPromises = enrolledCourseIds.map(async (courseId) => {
-      const courseDetailsResponse = await axios.get(
-        `http://localhost:8000/ms-course/course/get-by-id/`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          data: { id: courseId },
-        }
-      );
-      return courseDetailsResponse.data;
-    });
-
-    const courseDetails = await Promise.all(courseDetailsPromises);
-
-    const response = {
-      /*  enrolledCourses: learner.enrolledCourses, */
-      courseDetails: courseDetails,
-    };
-
-    return {
-      success: true,
-      data: response,
-      message: "Courses fetched successfully",
-    };
   }
 
   //get enrolled course by course id
@@ -135,12 +142,11 @@ class LearnerService {
 
       // Call course service endpoint to get course details
       const courseDetailsResponse = await axios.get(
-        `http://localhost:8000/ms-course/course/get-by-id/`,
+        `http://localhost:8000/ms-course/course/get-by-id/${payload.courseId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          data: { id: payload.courseId },
         }
       );
 
@@ -262,6 +268,41 @@ class LearnerService {
       return {
         message: "Error unenrolling course",
       };
+    }
+  }
+
+  // Monitor course progress for specific course IDs
+  async monitorCourseProgress(payload) {
+    try {
+      const courseIds = Array.isArray(payload.id) ? payload.id : [payload.id]; // Ensure courseIds is an array
+
+      const learners = await Learner.find(); // Retrieve all learners
+
+      const courseProgressPromises = learners.map(async (learner) => {
+        const learnerCourseProgress = learner.enrolledCourses.filter(
+          (course) => courseIds.includes(course.courseId) && course.progress > 0 // Filter by course ID and progress > 0
+        );
+
+        if (learnerCourseProgress.length > 0) {
+          return {
+            student_id: learner.student_id,
+            courseProgress: learnerCourseProgress,
+          };
+        }
+        return null;
+      });
+
+      const courseProgress = (await Promise.all(courseProgressPromises)).filter(
+        (progress) => progress !== null
+      ); // Filter out null values
+
+      return {
+        data: courseProgress,
+        message: "Course progress fetched successfully",
+      };
+    } catch (error) {
+      console.error("Error fetching course progress:", error);
+      throw new Error("Failed to fetch course progress");
     }
   }
 }

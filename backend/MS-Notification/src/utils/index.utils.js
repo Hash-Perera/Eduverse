@@ -1,4 +1,4 @@
-const amqplib = require("amqplib");
+/* const amqplib = require("amqplib");
 const {
   MSG_QUEUE_URL,
   EXCHANGE_NAME,
@@ -51,3 +51,4 @@ module.exports = {
   PublishMessage,
   SubscribeMessages,
 };
+ */
