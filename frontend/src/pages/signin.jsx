@@ -90,7 +90,11 @@ const SignIn = () => {
                   <div className="m-3"></div>
                   <InputField name="email" label="Email" />
                   <div className="m-3"></div>
-                  <InputField name="password" label="Password" />
+                  <InputField
+                    name="password"
+                    type="password"
+                    label="Password"
+                  />
                   <div className="m-3"></div>
                   <InputField name="mobileNumber" label="Mobile number" />
                   <div className="m-3"></div>

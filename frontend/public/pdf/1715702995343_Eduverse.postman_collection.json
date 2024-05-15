@@ -1,0 +1,1279 @@
+{
+	"info": {
+		"_postman_id": "8a61e666-e48f-4f6c-9a4f-1be0c8ddb1e3",
+		"name": "Eduverse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34460351",
+		"_collection_link": "https://winter-shadow-6862.postman.co/workspace/Project-Team-SLIIT~e4dd0164-2f6b-4afe-ad3b-327dc3035868/collection/24790122-8a61e666-e48f-4f6c-9a4f-1be0c8ddb1e3?action=share&source=collection_link&creator=34460351"
+	},
+	"item": [
+		{
+			"name": "MS-Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"routingKey\" : \"Auth\",\r\n    // \"responseKey\" : \"MainServer\",\r\n    \"event\" : \"REGISTER\",\r\n    \"data\" : {\r\n         \"firstName\" : \"Learner\",\r\n         \"lastName\" : \"__\",\r\n         \"email\" : \"learner@gmail.com\",\r\n         \"password\" : \"learner\",\r\n         \"mobileNumber\" : \"0775538374\",\r\n         \"role\" : \"6627d0f5e4e44957d18dec24\"\r\n        \r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"",
+									"if (responseJson.success && responseJson.data && responseJson.data.token) {",
+									"    pm.globals.set(\"Token\", responseJson.data.token);",
+									"    console.log(\"Token saved to global variable:\", pm.globals.get(\"Token\"));",
+									"} else {",
+									"    console.error(\"Token not found in response data.\");",
+									"}",
+									"pm.globals.get(\"Token\");",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"routingKey\" : \"Auth\",\r\n    // \"responseKey\" : \"MainServer\",\r\n    \"event\" : \"REGISTER\",\r\n    \"data\" : {\r\n         \"email\" : \"hashperera.v@gmail.com\",\r\n         \"password\" : \"99\"\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"routingKey\" : \"\",\r\n    // \"responseKey\" : \"MainServer\",\r\n    \"event\" : \"\",\r\n    \"data\" : {\r\n         \"name\" : \"sampleeeeeee\",\r\n         \"description\" : \"This is Admin\"\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/role/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"role",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\" :\"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/auth/register-test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"auth",
+								"register-test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register test Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\" :\"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/user/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"user",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "otp update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/user/send-otp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"user",
+								"send-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mobileNumber\" :\"1234567894561234567489\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-auth/user/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-auth",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MS-Course-Management",
+			"item": [
+				{
+					"name": "Course",
+					"item": [
+						{
+							"name": "Create course",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"uuid": "7f2358ef-3b9f-4309-bd43-3d3dc96621b0",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"uuid": "6a334416-028c-4913-b12c-aa8f0e6fe2ec",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Introduction to File upload",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "120",
+											"type": "text"
+										},
+										{
+											"key": "duration",
+											"value": "10 weeks",
+											"type": "text"
+										},
+										{
+											"key": "instructor",
+											"value": "claude ai",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Try to upload file with multer",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Development",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"contentType": "image/png",
+											"type": "file",
+											"src": "postman-cloud:///1ef0bc6e-a422-4bd0-8ab0-425cbaa8f6c4"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8002/course/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8002",
+									"path": [
+										"course",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Course Filter",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/filters?status=pending&category=all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"filters"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "pending"
+										},
+										{
+											"key": "category",
+											"value": "all"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Status of Course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"66389082a1bea5b3f98b497c\",\n  \"status\": \"active\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/status-update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"status-update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Course by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"66389082a1bea5b3f98b497c\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/get-by-id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"get-by-id"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update course Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\" : \"6637bed7220aab8c632b9a10\",\n  \"name\": \"Introduction to OOP\",\n  \"price\": \"99.99\",\n  \"duration\": \"10 weeks\",\n  \"description\": \"Learn the fundamentals of OOP with this comprehensive course.\",\n  \"instructor\": \"prasanna\",\n  \"sampleImage\": \"https://example.com/course-image.jpg\",\n  \"category\": \"IT\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/details-update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"details-update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\" : \"663bad9f8b6ab912547faa8b\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Instructor courses",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"instructor\" : \"66279f8bba811911b2e0da21\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/course/instructor-courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"course",
+										"instructor-courses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lessons",
+					"item": [
+						{
+							"name": "create lesson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Introduction HTML and CSS\",\n  \"video\": \"https://example.com/lesson1.mp4\",\n  \"duration\": \"120 minutes\",\n  \"description\": \"Learn the basics of JAVA OOP programming.\",\n  \"course\": \"66389082a1bea5b3f98b497c\" \n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/lesson/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"lesson",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all lessons",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/ms-course/lesson/all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"lesson",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a lesson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"lessonId\" : \"6637c6ea36130b4399015945\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/lesson/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"lesson",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update lesson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lessonId\":\"663860450afcac6a6c475224\",\n  \"title\": \"Introduction to JAVA with OOPs\",\n  \"video\": \"https://example.com/lesson1.mp4\",\n  \"duration\": \"160 minutes\",\n  \"description\": \"Learn the basics of JAVA OOP programming.\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/ms-course/lesson/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"ms-course",
+										"lesson",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "MS-Learner",
+			"item": [
+				{
+					"name": "enroll course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyODU4MywiZXhwIjoxNzE3NTIwNTgzfQ.uWRUUvfwocwA--9O5-bpiqBymd9fN51pQ-BkEKcj9H4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "/* {\r\n    \"student_id\":\"6627d400f2390e6ab3ad3306\",\r\n    \"enrolledCourses\":[{\"courseId\":\"6637bda70e17790dc64c9f1d\"}]\r\n\r\n\r\n} */\r\n\r\n{\r\n  \"student_id\": \"35545678955\", \r\n  \"enrolledCourses\": [\r\n    {\r\n      \"courseId\":\"6637bda70e17790dc64c9f1d\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/enroll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all enrolled courses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNTA5MzYxNCwiZXhwIjoxNzE3Njg1NjE0fQ.LBeOR8J2KedZy1AMQmGRp1forHhteLlYkOqjqR1b3ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\":\"35545678955\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get enroll course",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNTA5MzYxNCwiZXhwIjoxNzE3Njg1NjE0fQ.LBeOR8J2KedZy1AMQmGRp1forHhteLlYkOqjqR1b3ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\":\"35545678955\",\r\n    \"courseId\":\"6637bda70e17790dc64c9f1d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/course",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update progress",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyODU4MywiZXhwIjoxNzE3NTIwNTgzfQ.uWRUUvfwocwA--9O5-bpiqBymd9fN51pQ-BkEKcj9H4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\":\"35545678955\",\r\n    \"courseId\":\"6637bda70e17790dc64c9f1d\",\r\n    \"progress\":0.25\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/course/progress",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"course",
+								"progress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unenroll course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyODU4MywiZXhwIjoxNzE3NTIwNTgzfQ.uWRUUvfwocwA--9O5-bpiqBymd9fN51pQ-BkEKcj9H4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\":\"35545678955\",\r\n    \"courseId\":\"course1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/course/unenroll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"course",
+								"unenroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get course progress",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNTA5MzYxNCwiZXhwIjoxNzE3Njg1NjE0fQ.LBeOR8J2KedZy1AMQmGRp1forHhteLlYkOqjqR1b3ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student_id\":\"35545678955\",\r\n     \"courseId\":\"6637bda70e17790dc64c9f1d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-learner/learner/progress",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-learner",
+								"learner",
+								"progress"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MS-Notification",
+			"item": [
+				{
+					"name": "Dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"Payment\",\r\n    \"message\" : \"Payment successfull\",\r\n    \"data\" :{},\r\n    \"viewed\" : false,\r\n    \"userId\" : \"66279f8bba811911b2e0da21\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-notification/notification/create-dashboard",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-notification",
+								"notification",
+								"create-dashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/ms-notification/notification/get-notifications-10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-notification",
+								"notification",
+								"get-notifications-10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/ms-notification/notification/mark-as-read/66369db6103950a9f37fc5f8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-notification",
+								"notification",
+								"mark-as-read",
+								"66369db6103950a9f37fc5f8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send otp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/ms-notification/notification/send-otp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-notification",
+								"notification",
+								"send-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mjc5ZjhiYmE4MTE5MTFiMmUwZGEyMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNDkyMjkwMywiZXhwIjoxNzE3NTE0OTAzfQ.bh6xYyhSYLWwVyzgdQueIL9T5tA5qKXJ_SFbDokhRe4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"it21205606@my.sliit.lk\",\r\n    \"subject\" :\"Eduverse\",\r\n    \"message\" : \" <h1>Dear student</h1> <p>Your time table has been changed. Please refer to the LMS for updated timetable<p> <br> <p>Regards<br>Thank you<br>Student Affairs SLIIT</p> \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/ms-notification/notification/send-email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ms-notification",
+								"notification",
+								"send-email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MS-Payment",
+			"item": []
+		},
+		{
+			"name": "Server",
+			"item": [
+				{
+					"name": "sendLog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//Do not edit or delete this\r\n\r\n// {\r\n//     \"routingKey\" : \"Auth\",\r\n//     // \"responseKey\" : \"MainServer\",\r\n//     \"event\" : \"REGISTER\",\r\n//     \"data\" : {\r\n//          \"firstName\" : \"Hashan\",\r\n//          \"lastName\" : \"Perera\",\r\n//          \"email\" : \"hashan@gmail.com\",\r\n//          \"password\" : \"12345\",\r\n//          \"mobileNumber\" : \"0775538374\"\r\n        \r\n//     }\r\n// }\r\n// {\r\n//     \"routingKey\" : \"Auth\",\r\n//     // \"responseKey\" : \"MainServer\",\r\n//     \"event\" : \"ROLE\",\r\n//     \"data\" : {\r\n//          \"firstName\" : \"Hashan\",\r\n//          \"lastName\" : \"Perera\",\r\n//          \"email\" : \"hashan@gmail.com\",\r\n//          \"password\" : \"12345\",\r\n//          \"mobileNumber\" : \"0775538374\"\r\n        \r\n//     }\r\n// }\r\n{\r\n    //\"routingKey\" : \"Course\",\r\n    // \"responseKey\" : \"MainServer\",\r\n    \"event\" : \"GET_COURSES\",\r\n    \"data\" : {\r\n         \"firstName\" : \"Hashan\",\r\n         \"lastName\" : \"Perera\",\r\n         \"email\" : \"hashan@gmail.com\",\r\n         \"password\" : \"12345\",\r\n         \"mobileNumber\" : \"0775538374\"\r\n        \r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/sendLog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"sendLog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/consumeLog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consumeLog"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

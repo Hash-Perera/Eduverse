@@ -24,19 +24,27 @@ module.exports = (app) => {
   SubscribeMessages(channel, service); */
 
   //Create lesson
-  app.post(`${baseUrl}/create`, upload.single("notes"), async (req, res) => {
-    console.log(req.body);
-    try {
-      const body = {
-        ...req.body,
-        notes: req.file.filename,
-      };
-      const result = await service.CreateLesson(body, res);
-      res.send(result);
-    } catch (err) {
-      console.log(err);
+  app.post(
+    `${baseUrl}/create`,
+    upload.fields([
+      { name: "video", maxCount: 1 },
+      { name: "notes", maxCount: 1 },
+    ]),
+    async (req, res) => {
+      console.log(req.body);
+      try {
+        const body = {
+          ...req.body,
+          video: req.files.video[0].filename,
+          notes: req.files.notes[0].filename,
+        };
+        const result = await service.CreateLesson(body, res);
+        res.send(result);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 
   //delete lesson
   app.delete(`${baseUrl}/delete/:lessonId`, async (req, res) => {

@@ -154,7 +154,7 @@ const SingleCourse = () => {
       );
       if (response.status === 200) {
         toast.success("Course Deleted Successfully");
-        window.location.href = "/all-dashboard";
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       toast.error("Error Deleting Course");
@@ -366,14 +366,21 @@ const SingleCourse = () => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="flex flex-col gap-3 ">
-                      {lesson?.video && (
-                        <iframe
-                          src={lesson?.video}
-                          title={lesson?.title}
-                          width="200px"
-                          height="300px"
-                        ></iframe>
-                      )}
+                      {lesson?.video &&
+                        (lesson?.video.startsWith("http") ? (
+                          <iframe
+                            src={lesson?.video}
+                            title={lesson?.title}
+                            className="w-[200px] md:w-[400px] h-[300px]"
+                          ></iframe>
+                        ) : (
+                          <video
+                            src={`/pdf/${lesson?.video}`}
+                            title={lesson?.title}
+                            className="w-[200px] md:w-[400px] h-[300px]"
+                            controls
+                          ></video>
+                        ))}
                       <p className="text-lg font-normal ">
                         {" "}
                         {lesson?.description}{" "}
@@ -442,7 +449,7 @@ const SingleCourse = () => {
                 <div key={index} className="flex flex-col gap-3 ">
                   <ProgressBar
                     now={(item.progress * 100).toFixed(2)}
-                    label={`${(1 - item.progress) * 100}%`}
+                    label={`${item.progress * 100}%`}
                   />
                   <p className="text-lg font-medium ">
                     {" "}

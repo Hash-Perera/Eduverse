@@ -26,6 +26,7 @@ const VisuallyHiddenInput = styled("input")({
 const AddLesson = () => {
   const { id } = useParams();
   const [file, setFile] = useState(null);
+  const [lessonVideo, setVideo] = useState(null);
   const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const AddLesson = () => {
       console.log(values);
       const formData = new FormData();
       formData.append("title", values.title);
-      formData.append("video", values.video);
+      formData.append("video", lessonVideo);
       formData.append("duration", values.duration);
       formData.append("description", values.description);
       formData.append("course", id);
@@ -119,7 +120,6 @@ const AddLesson = () => {
             <Formik
               initialValues={{
                 title: "",
-                video: "",
                 duration: "",
                 description: "",
               }}
@@ -134,7 +134,19 @@ const AddLesson = () => {
 
                 <InputField name="duration" label="Lesson Duration" />
                 <div className="m-3"></div>
-                <InputField name="video" label="Lesson Video" />
+                <Button
+                  component="label"
+                  role={undefined}
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Upload Video
+                  <VisuallyHiddenInput
+                    name="video"
+                    type="file"
+                    onChange={(e) => setVideo(e.target.files[0])}
+                  />
+                </Button>
                 <div className="m-3"></div>
                 <InputField name="description" label="Lesson Description" />
                 <div className="m-3"></div>

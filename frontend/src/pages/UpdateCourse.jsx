@@ -56,12 +56,23 @@ const UpdateCourse = () => {
     try {
       const formData = new FormData();
       formData.append("id", id);
-      formData.append("name", values.name);
-      formData.append("price", values.price);
-      formData.append("duration", values.duration);
-      formData.append("description", values.description);
-      formData.append("category", values.category);
-      formData.append("image", file);
+      formData.append("name", values.name ? values.name : course.name);
+      formData.append("price", values.price ? values.price : course.price);
+      formData.append(
+        "duration",
+        values.duration ? values.duration : course.duration
+      );
+      formData.append(
+        "description",
+        values.description ? values.description : course.description
+      );
+      formData.append(
+        "category",
+        values.category ? values.category : course.category
+      );
+      formData.append("image", file ? file : course.image);
+
+      console.log(formData);
 
       const response = await fetch(
         "http://localhost:8002/course/details-update",

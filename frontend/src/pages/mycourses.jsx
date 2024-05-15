@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Card from "../components/common-card";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
 
@@ -34,27 +35,13 @@ const MyCourses = () => {
         className=""
         style={{
           padding: "40px",
-          background: "#f8f8f8",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>My Courses</h1>
+        <h1 className="mb-8 text-3xl font-semibold text-center ">My Courses</h1>
         <Grid container spacing={2} padding={0}>
           {courses.map((course) => (
             <Grid item xs={12} sm={12} md={4} lg={3} key={course._id}>
-              <Card
-                className="card text-bg-light p-3"
-                style={{
-                  background: "#ececec",
-                  color: "black",
-                  borderRadius: "10px",
-                  boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-                  transition: "5s",
-                  padding: "10px",
-                  margin: "10px",
-                  textAlign: "center}} ",
-                  height: "100%",
-                }}
-              >
+              <div className="rounded-t-lg card text-bg-light">
                 <img
                   src={
                     course.image
@@ -66,9 +53,6 @@ const MyCourses = () => {
                     objectFit: "fill",
                     height: "200px",
                     width: "100%",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    backgroundColor: "#263032",
                   }}
                   alt="..."
                 />
@@ -81,31 +65,29 @@ const MyCourses = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <div
-                    style={{
-                      justifyContent: "space-between",
-                      /*   alignItems: "center", */
-                    }}
-                  >
-                    <h4 className="card-text">{course.name}</h4>
-                    <p className="card-text">{course.duration}</p>
+                  <div className="flex items-center justify-between w-full ">
+                    <h4 className="font-medium card-text">{course.name}</h4>
+                    <p className="text-gray-400 card-text">{course.duration}</p>
                   </div>
-                  <p className="card-text" style={{ letterSpacing: "1px" }}>
-                    <b>Category: {course.category}</b>
+                  <p className="font-normal " style={{ letterSpacing: "1px" }}>
+                    <>
+                      Category: {course.category} {""}Development
+                    </>
+                  </p>
+                  <p className="text-gray-400 mt-1 line-clamp-2 min-h-[47px] card-text">
+                    {course?.description}
                   </p>
                 </div>
-                <Link
-                  to={`/mycourse/${course._id}`}
-                  className="btn btn-danger "
-                  style={{
-                    color: "white",
-                    padding: "10px",
-                    borderRadius: "10px",
-                  }}
-                >
-                  View Course
-                </Link>
-              </Card>
+                <div className="flex items-center justify-between px-3 py-2 ">
+                  <VerifiedUserIcon className="text-green-500" />
+                  <Link
+                    to={`/mycourse/${course._id}`}
+                    className="text-lg font-semibold hover:cursor-pointer hover:font-bold hover:scale-105"
+                  >
+                    View Course
+                  </Link>
+                </div>
+              </div>
               <br />
             </Grid>
           ))}
